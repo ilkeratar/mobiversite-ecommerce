@@ -27,7 +27,7 @@ export default function Navbar() {
   // const { user, logout } = useAuth();
   // const { cart } = useCart();
   
-  // Geçici veriler (Context'ler bağlanana kadar)
+  // Temporary data (until Context's are connected)
   const user = null; 
   const cart: CartItem[] = [];
 
@@ -36,7 +36,7 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-white justify-between whitespace-nowrap shadow-md">
       <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-20 items-center justify-between">
           
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center space-x-3">
@@ -55,11 +55,12 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Orta Kısım: Search ve Ana Linkler */}
-          <div className="hidden md:flex md:items-center md:space-x-6">
+          {/* Middle Section: Search and Main Links */}
+          <div className="hidden md:flex md:items-center md:space-x-8">
             <Link 
               href="/products" 
-              className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+              className="rounded-md px-4 py-2 text-base font-semibold text-gray-800 hover:bg-gray-100 transition-colors duration-200"
+              style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
             >
               All Products
             </Link>
@@ -69,17 +70,17 @@ export default function Navbar() {
               <input
                 type="text"
                 placeholder="Search for a product..."
-                className="w-64 rounded-md border border-gray-300 py-2 pl-10 pr-4 text-sm text-gray-700 focus:border-blue-500 focus:ring-blue-500"
+                className="w-72 rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-sm text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
               />
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             </form>
           </div>
 
-          {/* Sağ Kısım */}
+          {/* Right Section */}
           <div className="hidden md:flex md:items-center md:space-x-4">
             <Link href="/wishlist" className="relative p-2 text-gray-600 hover:text-gray-800">
               <Heart className="h-6 w-6" />
-              {/* TODO: İstek listesi sayacı */}
+              {/* TODO: Wishlist count */}
             </Link>
             
             <Link href="/cart" className="relative p-2 text-gray-600 hover:text-gray-800">
@@ -97,7 +98,7 @@ export default function Navbar() {
                   <User className="h-6 w-6" />
                   <span className="text-sm font-medium">Profile</span>
                 </Link>
-                {/* TODO: Çıkış butonu */}
+                {/* TODO: Logout button */}
                 {/* <button onClick={logout} className="...">Log Out</button> */}
               </>
             ) : (
@@ -110,7 +111,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobil Menü Butonu */}
+          {/* Mobile Menu Button */}
           <div className="flex md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -127,13 +128,14 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobil Menü (Açılır Kapanır) */}
+      {/* Mobile Menu (Open/Close) */}
       {isMobileMenuOpen && (
         <div className="border-t border-gray-200 md:hidden">
           <div className="space-y-1 px-2 pb-3 pt-2">
             <Link 
               href="/products" 
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+              className="block rounded-md px-3 py-2 text-base font-semibold text-gray-800 hover:bg-gray-100"
+              style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
             >
               All Products
             </Link>
