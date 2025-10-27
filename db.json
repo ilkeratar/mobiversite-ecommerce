@@ -983,5 +983,17 @@
     }
   ],
   "carts": [],
-  "wishlists": []
+  "wishlists": [],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Electronics",
+      "slug": "electronics"
+    },
+    {
+      "id": 2,
+      "name": "Jewelery",
+      "slug": "jewelery"
+    }
+  ]
 }
