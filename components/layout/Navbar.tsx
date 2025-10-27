@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { AuthUser } from '@/types';
 import { 
   ShoppingCart, 
   Heart, 
@@ -28,10 +29,25 @@ export default function Navbar() {
   // const { cart } = useCart();
   
   // Temporary data (until Context's are connected)
-  const user = null; 
+  const user: AuthUser | null = null; 
   const cart: CartItem[] = [];
 
   const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+
+  const computeDisplayName = (u: AuthUser | null): string => {
+    if (!u) return 'Login';
+    return (u.name?.firstname || u.username || u.email);
+  };
+
+  const computeInitials = (u: AuthUser | null): string => {
+    if (!u) return '👤';
+    const first = u.name?.firstname?.[0] || u.username?.[0] || u.email?.[0] || 'U';
+    const last = u.name?.lastname?.[0] || '';
+    return (first + last).toUpperCase();
+  };
+
+  const displayName = computeDisplayName(user);
+  const initials = computeInitials(user);
 
   return (
     <nav className="sticky top-0 z-50 bg-white justify-between whitespace-nowrap shadow-md">
@@ -92,23 +108,19 @@ export default function Navbar() {
               )}
             </Link>
 
-            {user ? (
-              <>
-                <Link href="/profile" className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-800">
-                  <User className="h-6 w-6" />
-                  <span className="text-sm font-medium">Profile</span>
-                </Link>
-                {/* TODO: Logout button */}
-                {/* <button onClick={logout} className="...">Log Out</button> */}
-              </>
-            ) : (
-              <Link 
-                href="/login" 
-                className="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
-              >
-                Login
-              </Link>
-            )}
+            <Link
+              href={user ? '/profile' : '/login'}
+              className="group inline-flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 shadow-sm transition-colors transition-shadow duration-200 hover:border-gray-300 hover:shadow-md"
+            >
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-50 text-gray-600 ring-1 ring-gray-200 transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
+                {user ? (
+                  <span className="text-xs font-semibold leading-none">{initials}</span>
+                ) : (
+                  <User className="h-4 w-4" />
+                )}
+              </span>
+              <span className="text-sm font-semibold text-gray-800">{displayName}</span>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -151,21 +163,19 @@ export default function Navbar() {
             >
               Wishlist
             </Link>
-            {user ? (
-              <Link 
-                href="/profile" 
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
-              >
-                Profile
-              </Link>
-            ) : (
-              <Link 
-                href="/login" 
-                className="block rounded-md bg-blue-500 px-3 py-2 text-base font-medium text-white hover:bg-blue-600"
-              >
-                Login
-              </Link>
-            )}
+            <Link 
+              href={user ? '/profile' : '/login'} 
+              className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-50 text-gray-600 ring-1 ring-gray-200">
+                {user ? (
+                  <span className="text-sm font-semibold leading-none">{initials}</span>
+                ) : (
+                  <User className="h-5 w-5" />
+                )}
+              </span>
+              <span className="text-gray-800">{displayName}</span>
+            </Link>
           </div>
         </div>
       )}
