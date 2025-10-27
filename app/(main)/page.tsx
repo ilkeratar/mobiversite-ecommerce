@@ -1,22 +1,25 @@
-import { getProducts, getCategories } from '@/services/productService';
-import ProductList from '@/components/products/ProductList';
+import { getProducts } from '@/services/productService';
+import HeroSlider from '@/components/home/HeroSlider';
+import CategoryCards from '@/components/home/CategoryCards';
+import FeaturesSection from '@/components/home/FeaturesSection';
+import FeaturedProducts from '@/components/home/FeaturedProducts';
+import NewsletterSignup from '@/components/home/NewsletterSignup';
 import { Suspense } from 'react';
 import { Product } from '@/types';
 
 function LoadingSkeleton() {
-  return <div>Ürünler yükleniyor...</div>;
+  return (
+    <div className="animate-pulse">
+      <div className="h-96 bg-gray-200"></div>
+    </div>
+  );
 }
 
-export default async function HomePage(props: { 
-  searchParams: Promise<{ [key: string]: string | undefined }>
-}) {
-  
-  const searchParams = await props.searchParams;
-  const searchQuery = searchParams?.q;
-  
+export default async function HomePage() {
+  // Get products for featured section
   const productsPromise = new Promise<Product[]>((resolve) => {
     setTimeout(async () => {
-      const products = await getProducts({ q: searchQuery });
+      const products = await getProducts({});
       resolve(products);
     }, 1000);
   });
@@ -24,15 +27,25 @@ export default async function HomePage(props: {
   const [products] = await Promise.all([productsPromise]);
 
   return (
-    <div>
-      {/* Ürün Listesi (Server Component)
-        Suspense, filtreleme sırasında (sayfa yeniden render olurken) 
-        kullanıcıya bir 'loading' durumu göstermemizi sağlar.
-        Bunun çalışması için app/(main)/loading.tsx dosyası oluşturabilirsiniz.
-      */}
+    <div className="min-h-screen">
+      {/* Hero Slider */}
       <Suspense fallback={<LoadingSkeleton />}>
-        <ProductList products={products} />
+        <HeroSlider />
       </Suspense>
+
+      {/* Category Cards */}
+      <CategoryCards />
+
+      {/* Featured Products */}
+      <Suspense fallback={<div className="py-16 text-center">Ürünler yükleniyor...</div>}>
+        <FeaturedProducts products={products} />
+      </Suspense>
+
+      {/* Features Section */}
+      <FeaturesSection />
+
+      {/* Newsletter Signup */}
+      <NewsletterSignup />
     </div>
   );
 }
