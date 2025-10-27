@@ -14,22 +14,22 @@ const features: Feature[] = [
   {
     id: 1,
     icon: Truck,
-    title: 'Ücretsiz Kargo',
-    description: '150 TL ve üzeri alışverişlerde ücretsiz kargo imkanı',
+    title: 'Free Shipping',
+    description: 'Free shipping on orders over $150',
     color: 'text-blue-600'
   },
   {
     id: 2,
     icon: Shield,
-    title: 'Güvenli Alışveriş',
-    description: '256-bit SSL şifreleme ile güvenli ödeme sistemi',
+    title: 'Secure Shopping',
+    description: 'Secure payment system with 256-bit SSL encryption',
     color: 'text-green-600'
   },
   {
     id: 3,
     icon: Award,
-    title: 'Kalite Garantisi',
-    description: 'Tüm ürünlerimizde 2 yıl kalite garantisi',
+    title: 'Quality Guarantee',
+    description: '2-year quality guarantee on all our products',
     color: 'text-purple-600'
   }
 ];
@@ -41,10 +41,10 @@ export default function FeaturesSection() {
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Neden Bizi Tercih Etmelisiniz?
+            Why Choose Us?
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Müşteri memnuniyetini ön planda tutan hizmet anlayışımızla fark yaratıyoruz
+            We make a difference with our service approach that prioritizes customer satisfaction
           </p>
         </div>
 
@@ -87,15 +87,15 @@ export default function FeaturesSection() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center">
                 <div className="text-3xl font-bold text-blue-600 mb-2">10K+</div>
-                <div className="text-gray-600">Mutlu Müşteri</div>
+                <div className="text-gray-600">Happy Customers</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">50K+</div>
-                <div className="text-gray-600">Başarılı Teslimat</div>
+                <div className="text-gray-600">Successful Deliveries</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-purple-600 mb-2">99%</div>
-                <div className="text-gray-600">Müşteri Memnuniyeti</div>
+                <div className="text-gray-600">Customer Satisfaction</div>
               </div>
             </div>
           </div>

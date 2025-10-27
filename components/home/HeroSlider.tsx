@@ -20,34 +20,34 @@ interface HeroSlide {
 const heroSlides: HeroSlide[] = [
   {
     id: 1,
-    title: 'Moda Dünyası',
-    subtitle: 'Yeni Sezon',
-    description: 'En trend parçaları keşfedin ve stilinizi yansıtın',
+    title: 'Fashion World',
+    subtitle: 'New Season',
+    description: 'Discover the trendiest pieces and reflect your style',
     image: '/images/hero/fashion-hero.jpg',
     category: 'women\'s clothing',
-    ctaText: 'Alışverişe Başla',
+    ctaText: 'Start Shopping',
     ctaLink: '/products?category=women\'s clothing',
     gradient: 'from-pink-600/70 to-purple-600/70'
   },
   {
     id: 2,
-    title: 'Elektronik',
-    subtitle: 'Teknoloji',
-    description: 'En son teknoloji ürünleri ile hayatınızı kolaylaştırın',
+    title: 'Electronics',
+    subtitle: 'Technology',
+    description: 'Make your life easier with the latest technology products',
     image: '/images/hero/electronics-hero.jpg',
     category: 'electronics',
-    ctaText: 'Keşfet',
+    ctaText: 'Explore',
     ctaLink: '/products?category=electronics',
     gradient: 'from-blue-600/70 to-cyan-600/70'
   },
   {
     id: 3,
-    title: 'Mücevher',
-    subtitle: 'Zarafet',
-    description: 'Özel anlarınızı güzelleştiren benzersiz parçalar',
+    title: 'Jewelry',
+    subtitle: 'Elegance',
+    description: 'Unique pieces that beautify your special moments',
     image: '/images/hero/jewelry-hero.jpg',
     category: 'jewelery',
-    ctaText: 'İncele',
+    ctaText: 'Browse',
     ctaLink: '/products?category=jewelery',
     gradient: 'from-amber-600/70 to-yellow-600/70'
   }
@@ -135,7 +135,7 @@ export default function HeroSlider() {
       <button
         onClick={goToPrevious}
         className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
-        aria-label="Önceki slide"
+        aria-label="Previous slide"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
@@ -143,7 +143,7 @@ export default function HeroSlider() {
       <button
         onClick={goToNext}
         className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
-        aria-label="Sonraki slide"
+        aria-label="Next slide"
       >
         <ChevronRight className="w-6 h-6" />
       </button>

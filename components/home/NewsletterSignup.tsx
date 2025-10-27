@@ -30,16 +30,16 @@ export default function NewsletterSignup() {
             <div className="bg-white rounded-2xl p-8 shadow-2xl">
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                Teşekkürler!
+                Thank You!
               </h2>
               <p className="text-gray-600 mb-6">
-                Newsletter aboneliğiniz başarıyla oluşturuldu. En yeni ürünler ve kampanyalardan haberdar olacaksınız.
+                Your newsletter subscription has been successfully created. You will be informed about the latest products and campaigns.
               </p>
               <button
                 onClick={() => setIsSubscribed(false)}
                 className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-300"
               >
-                Yeni E-posta Ekle
+                Add New Email
               </button>
             </div>
           </div>
@@ -67,12 +67,11 @@ export default function NewsletterSignup() {
                 
                 <div className="space-y-4">
                   <h3 className="text-2xl font-semibold text-gray-800">
-                    Özel Fırsatları Kaçırma!
+                    Don't Miss Special Offers!
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    E-posta listemize katıl ve en yeni ürünler, özel indirimler ve 
-                    kampanyalardan ilk sen haberdar ol. Ayrıca ücretsiz kargo fırsatları 
-                    da seni bekliyor!
+                    Join our email list and be the first to know about the latest products, special discounts and 
+                    campaigns. Free shipping opportunities are also waiting for you!
                   </p>
                 </div>
 
@@ -80,19 +79,19 @@ export default function NewsletterSignup() {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-gray-700">Haftalık özel indirimler</span>
+                    <span className="text-gray-700">Weekly special discounts</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-gray-700">Yeni ürün duyuruları</span>
+                    <span className="text-gray-700">New product announcements</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-gray-700">Ücretsiz kargo fırsatları</span>
+                    <span className="text-gray-700">Free shipping opportunities</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-gray-700">Müşteri özel etkinlikler</span>
+                    <span className="text-gray-700">Customer exclusive events</span>
                   </div>
                 </div>
               </div>
@@ -102,7 +101,7 @@ export default function NewsletterSignup() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                      E-posta Adresiniz
+                      Your Email Address
                     </label>
                     <div className="relative">
                       <input
@@ -110,7 +109,7 @@ export default function NewsletterSignup() {
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="ornek@email.com"
+                        placeholder="example@email.com"
                         className="w-full px-4 py-4 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg"
                         required
                       />
@@ -130,12 +129,12 @@ export default function NewsletterSignup() {
                     {isLoading ? (
                       <>
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Kaydediliyor...</span>
+                        <span>Saving...</span>
                       </>
                     ) : (
                       <>
                         <Send className="w-5 h-5" />
-                        <span>Abone Ol</span>
+                        <span>Subscribe</span>
                       </>
                     )}
                   </button>
@@ -143,7 +142,7 @@ export default function NewsletterSignup() {
 
                 {/* Privacy Note */}
                 <p className="text-xs text-gray-500 text-center">
-                  E-posta adresinizi güvenle saklıyoruz. İstediğiniz zaman abonelikten çıkabilirsiniz.
+                  We securely store your email address. You can unsubscribe at any time.
                 </p>
               </div>
             </div>

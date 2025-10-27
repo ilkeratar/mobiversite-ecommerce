@@ -45,10 +45,10 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Öne Çıkan Ürünler
+            Featured Products
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            En çok beğenilen ve en yüksek puanlı ürünlerimizi keşfedin
+            Discover our most loved and highest rated products
           </p>
         </div>
 
@@ -94,7 +94,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
                       ? 'bg-green-50 text-green-700 border-green-200' 
                       : 'bg-rose-50 text-rose-700 border-rose-200'
                   }`}>
-                    {product.details.inStock ? 'Stokta' : 'Tükendi'}
+                    {product.details.inStock ? 'In Stock' : 'Out of Stock'}
                   </span>
                 </div>
 
@@ -145,7 +145,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
                       href={`/products/${product.id}`}
                       className="block w-full text-center py-3 bg-white text-gray-900 rounded-xl border border-gray-200 shadow-sm hover:bg-gray-50 hover:shadow-md transition-all duration-200"
                     >
-                      Detayları Gör
+                      View Details
                     </Link>
                     
                     <button
@@ -158,7 +158,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
                     >
                       <ShoppingCart className="w-5 h-5" />
                       <span>
-                        {product.details.inStock ? 'Sepete Ekle' : 'Stokta Yok'}
+                        {product.details.inStock ? 'Add to Cart' : 'Out of Stock'}
                       </span>
                     </button>
                   </div>
@@ -174,7 +174,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
             href="/products"
             className="inline-flex items-center px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
           >
-            Tüm Ürünleri Gör
+            View All Products
             <Eye className="ml-2 w-5 h-5" />
           </Link>
         </div>

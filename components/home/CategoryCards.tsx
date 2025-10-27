@@ -18,41 +18,41 @@ interface CategoryCard {
 const categories: CategoryCard[] = [
   {
     id: 1,
-    name: 'Elektronik',
+    name: 'Electronics',
     slug: 'electronics',
     image: '/images/categories/electronics-category.jpg',
     productCount: 150,
-    description: 'En son teknoloji ürünleri',
+    description: 'Latest technology products',
     gradient: 'from-blue-500 to-cyan-500',
     hoverGradient: 'from-blue-600 to-cyan-600'
   },
   {
     id: 2,
-    name: 'Erkek Giyim',
+    name: "Men's Clothing",
     slug: 'men\'s clothing',
     image: '/images/categories/mens-clothing-category.jpg',
     productCount: 200,
-    description: 'Modern erkek modası',
+    description: "Modern men's fashion",
     gradient: 'from-gray-700 to-gray-900',
     hoverGradient: 'from-gray-800 to-black'
   },
   {
     id: 3,
-    name: 'Kadın Giyim',
+    name: "Women's Clothing",
     slug: 'women\'s clothing',
     image: '/images/categories/womens-clothing-category.jpg',
     productCount: 180,
-    description: 'Şık kadın koleksiyonu',
+    description: "Elegant women's collection",
     gradient: 'from-pink-500 to-rose-500',
     hoverGradient: 'from-pink-600 to-rose-600'
   },
   {
     id: 4,
-    name: 'Mücevher',
+    name: 'Jewelry',
     slug: 'jewelery',
     image: '/images/categories/jewelry-category.jpg',
     productCount: 120,
-    description: 'Zarif mücevher koleksiyonu',
+    description: 'Elegant jewelry collection',
     gradient: 'from-amber-500 to-yellow-500',
     hoverGradient: 'from-amber-600 to-yellow-600'
   }
@@ -65,10 +65,10 @@ export default function CategoryCards() {
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Öne Çıkan Kategoriler
+            Featured Categories
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            En popüler kategorilerimizi keşfedin ve ihtiyacınıza uygun ürünleri bulun
+            Discover our most popular categories and find products that suit your needs
           </p>
         </div>
 
@@ -120,7 +120,7 @@ export default function CategoryCards() {
             href="/products"
             className="inline-flex items-center px-7 py-3 bg-white text-gray-900 rounded-xl border border-gray-200 shadow-sm hover:bg-gray-50 hover:shadow-md transition-all duration-300"
           >
-            Tüm Kategorileri Gör
+            View All Categories
             <ArrowRight className="ml-2 w-5 h-5" />
           </Link>
         </div>

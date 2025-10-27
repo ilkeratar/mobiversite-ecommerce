@@ -37,7 +37,7 @@ export default async function HomePage() {
       <CategoryCards />
 
       {/* Featured Products */}
-      <Suspense fallback={<div className="py-16 text-center">Ürünler yükleniyor...</div>}>
+      <Suspense fallback={<div className="py-16 text-center">Loading products...</div>}>
         <FeaturedProducts products={products} />
       </Suspense>
 
