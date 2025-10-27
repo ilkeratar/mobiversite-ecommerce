@@ -1,6 +1,15 @@
+'use client';
+
 import Link from "next/link";
+import { login, AuthState } from "@/lib/actions";
+import React from "react";
 
 export default function LoginPage() {
+  const [state, formAction] = React.useActionState<AuthState | undefined, FormData>(
+    login,
+    undefined
+  );
+
   return (
     <>
       <div className="mb-8">
@@ -13,7 +22,12 @@ export default function LoginPage() {
         </p>
       </div>
 
-      <form className="space-y-6">
+      <form className="space-y-6" action={formAction}>
+        {state?.error && (
+            <div className="rounded-md border border-red-300 bg-red-50 p-3">
+              <p className="text-sm font-medium text-red-700">{state.error}</p>
+            </div>
+          )}
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700">
             Email address

@@ -1,13 +1,33 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+const AUTH_COOKIE_NAME = 'auth_user';
+
+const protectedRoutes = ['/profile', '/wishlist'];
+
+const publicOnlyRoutes = ['/login', '/register'];
 
 export function middleware(request: NextRequest) {
-  const { nextUrl } = request;
-  const { pathname } = nextUrl;
+  const {pathname} = request.nextUrl;
 
-  if (pathname.startsWith("/api/")) {
-    return NextResponse.next();
+  const cookie = request.cookies.get(AUTH_COOKIE_NAME);
+
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+
+  if (isProtectedRoute && !cookie) {
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
+  const isPublicOnlyRoute = publicOnlyRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+
+  if (isPublicOnlyRoute && cookie) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+  
   return NextResponse.next();
 }
 

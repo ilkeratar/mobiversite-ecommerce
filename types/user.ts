@@ -3,7 +3,6 @@
 export interface User {
   id: number;
   email: string;
-  username: string;
   password: string;
   name: UserName;
   phone: string;
@@ -38,16 +37,13 @@ export interface LoginCredentials {
 export interface RegisterCredentials {
   email: string;
   password: string;
-  username: string;
   firstname: string;
   lastname: string;
-  phone: string;
 }
 
 export interface AuthUser {
   id: number;
   email: string;
-  username: string;
   name: UserName;
   phone: string;
   address?: UserAddress;

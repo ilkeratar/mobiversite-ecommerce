@@ -36,12 +36,12 @@ export default function Navbar() {
 
   const computeDisplayName = (u: AuthUser | null): string => {
     if (!u) return 'Login';
-    return (u.name?.firstname || u.username || u.email);
+    return (u.name?.firstname || u.email);
   };
 
   const computeInitials = (u: AuthUser | null): string => {
     if (!u) return '👤';
-    const first = u.name?.firstname?.[0] || u.username?.[0] || u.email?.[0] || 'U';
+    const first = u.name?.firstname?.[0] || u.email?.[0] || 'U';
     const last = u.name?.lastname?.[0] || '';
     return (first + last).toUpperCase();
   };
