@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";
 import { cookies } from 'next/headers';
+import { AuthProvider } from '@/context/AuthContext';
+import { CartProvider } from '@/context/CartContext';
+import { WishlistProvider } from '@/context/WishlistContext';
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Mobiversite E-Commerce App',
+  title: 'Ecomversite',
   description: 'ECommerce Test Application',
 };
 
@@ -23,17 +26,13 @@ export default async function RootLayout({
       <body
         className={inter.className}
       >
-        {/* TODO: Context API'leri oluşturduktan sonra 
-          bu provider'lar ile uygulamayı sarmalayacağız.
-        */}
-        {/* <AuthProvider initialUser={user}> */}
-        {/* <CartProvider> */}
-        {/* <WishlistProvider> */}
-        
-        {children}
-              {/* </WishlistProvider> */}
-              {/* </CartProvider> */}
-              {/* </AuthProvider> */}
+        <AuthProvider initialUser={null}>
+          <CartProvider>
+            <WishlistProvider>
+              {children}
+            </WishlistProvider>
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

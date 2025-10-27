@@ -994,6 +994,33 @@
       "id": 2,
       "name": "Jewelery",
       "slug": "jewelery"
+    },
+    {
+      "id": 3,
+      "name": "Men's Clothing",
+      "slug": "men's clothing"
+    },
+    {
+      "id": 4,
+      "name": "Women's Clothing",
+      "slug": "women's clothing"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 1,
+      "items": [
+        {
+          "id": 1,
+          "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95,
+          "quantity": 1
+        }
+      ],
+      "totalPrice": 109.95,
+      "status": "completed",
+      "createdAt": "2021-01-01"
     }
   ]
 }

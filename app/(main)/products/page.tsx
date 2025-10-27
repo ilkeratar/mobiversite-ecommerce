@@ -1,13 +1,17 @@
-import { getProducts } from '@/services/productService';
-import ProductList from '@/components/products/ProductList';
+import { getProducts, getCategories } from '@/services/productService';
+import ProductsPageClient from './ProductsPageClient';
 
 export default async function ProductsPage() {
-  const products = await getProducts({});
+  const [products, categories] = await Promise.all([
+    getProducts({}),
+    getCategories()
+  ]);
+
   return (
-    <div className="container mx-auto py-8 px-4 md:px-8">
-      <h1 className="text-2xl font-bold mb-6">All Products</h1>
-      <ProductList products={products} />
-    </div>
+    <ProductsPageClient 
+      initialProducts={products} 
+      categories={categories} 
+    />
   );
 }
 

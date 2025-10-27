@@ -1,13 +1,12 @@
-// Main types export file
 export type { 
   Product, 
   ProductDetails, 
-  ProductListProps, 
   ProductCardProps, 
   ProductFilters, 
-  ProductSortBy, 
   ProductCategory 
 } from './product';
+
+export { ProductSortBy } from './product';
 
 export type { 
   User, 
