@@ -15,15 +15,31 @@ export default function RegisterPage() {
 
       <form className="space-y-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-            Full name
+          <label htmlFor="firstname" className="block text-sm font-medium text-gray-700">
+            First name
           </label>
           <div className="mt-2">
             <input
-              id="name"
-              name="name"
+              id="firstname"
+              name="firstname"
               type="text"
-              autoComplete="name"
+              autoComplete="given-name"
+              required
+              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="lastname" className="block text-sm font-medium text-gray-700">
+            Surname
+          </label>
+          <div className="mt-2">
+            <input
+              id="lastname"
+              name="lastname"
+              type="text"
+              autoComplete="family-name"
               required
               className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm"
             />
