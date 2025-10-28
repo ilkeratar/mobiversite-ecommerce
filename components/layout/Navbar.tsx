@@ -168,7 +168,7 @@ export default function Navbar() {
                         <span>My Account</span>
                       </Link>
                       <Link
-                        href="/orders"
+                        href="/profile?tab=orders"
                         className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
@@ -255,7 +255,7 @@ export default function Navbar() {
                       <span>My Account</span>
                     </Link>
                     <Link 
-                      href="/orders" 
+                      href="/profile?tab=orders" 
                       className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
                     >
                       <Package className="h-5 w-5 text-gray-500" />
