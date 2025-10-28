@@ -1,9 +1,12 @@
 import axios from 'axios';
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const MAX_CONTENT_LENGTH = 2 * 1024 * 1024;
 
 const axiosInstance = axios.create({
   baseURL,
+  maxContentLength: MAX_CONTENT_LENGTH,
+  maxBodyLength: MAX_CONTENT_LENGTH,
 });
 
 const apiClient = {
