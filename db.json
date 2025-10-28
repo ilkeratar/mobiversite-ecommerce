@@ -934,6 +934,7 @@
         "lastname": "doe"
       },
       "phone": "1-570-236-7033",
+      "wishlist": [],
       "__v": 0
     },
     {
@@ -955,6 +956,10 @@
         "lastname": "morrison"
       },
       "phone": "1-570-236-7033",
+      "wishlist": [
+        2,
+        6
+      ],
       "__v": 0
     },
     {
@@ -976,11 +981,11 @@
         "lastname": "ryan"
       },
       "phone": "1-567-094-1345",
+      "wishlist": [],
       "__v": 0
     }
   ],
   "carts": [],
-  "wishlists": [],
   "categories": [
     {
       "id": 1,

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 import { logout } from '@/lib/actions';
 
 
@@ -26,8 +27,9 @@ export default function Navbar() {
 
   const { user } = useAuth();
   const { getTotalItems } = useCart();
-
+  const { items: wishlistItems } = useWishlist();
   const cartItemCount = getTotalItems();
+  const wishlistItemCount = (wishlistItems || []).length;
 
   const computeDisplayName = (u: AppUser | null): string => {
     if (!u) return 'Login';
@@ -105,7 +107,11 @@ export default function Navbar() {
             {user && (
               <Link href="/wishlist" className="relative p-2 text-gray-600 hover:text-gray-800">
                 <Heart className="h-6 w-6" />
-                {/* TODO: Wishlist count */}
+                {wishlistItemCount > 0 && (
+                  <span className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs font-bold text-white">
+                    {wishlistItemCount}
+                  </span>
+                )}
               </Link>
             )}
             
@@ -228,7 +234,7 @@ export default function Navbar() {
                 className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
               >
                 <Heart className="h-5 w-5 text-gray-500" />
-                <span>Wishlist</span>
+                <span>Wishlist ({wishlistItemCount})</span>
               </Link>
             )}
                 {!user ? (

@@ -6,7 +6,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
 import apiClient from '@/lib/apiClient';
-import { User } from '@/types';
+import { Product, User } from '@/types';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +24,21 @@ async function getUserData(userId: string): Promise<User | null> {
   } catch (error) {
     console.error('Failed to fetch user in layout:', error);
     return null;
+  }
+}
+
+async function getWishlistProducts(ids: number[]): Promise<Product[]> {
+  if (ids.length === 0) {
+    return [];
+  }
+
+  try {
+    const query = ids.map(id => `id=${id}`).join('&');
+    const products = await apiClient.get(`/products?${query}`);
+    return products as Product[];
+  } catch (error) {
+    console.error('Failed to fetch wishlist products:', error);
+    return [];
   }
 }
 
@@ -51,6 +66,12 @@ export default async function RootLayout({
     }
   }
 
+  let initialWishlistItems: Product[] = [];
+
+  if (user && user.wishlist && user.wishlist.length > 0) {
+    initialWishlistItems = await getWishlistProducts(user.wishlist);
+  }
+
   return (
     <html lang="en">
       <body
@@ -58,7 +79,7 @@ export default async function RootLayout({
       >
         <AuthProvider initialUser={user}>
           <CartProvider>
-            <WishlistProvider>
+            <WishlistProvider initialItems={initialWishlistItems}>
               {children}
             </WishlistProvider>
           </CartProvider>

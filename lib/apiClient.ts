@@ -35,6 +35,15 @@ const apiClient = {
       throw new Error('API request failed.');
     }
   },
+  patch: async (url: string, data: object = {}) => {
+    try {
+      const response = await axiosInstance.patch(url, data);
+      return response.data;
+    } catch (error) {
+      console.error(`PATCH ${url} failed:`, error);
+      throw new Error('API request failed.');
+    }
+  },
   delete: async (url: string) => {
     try {
       const response = await axiosInstance.delete(url);

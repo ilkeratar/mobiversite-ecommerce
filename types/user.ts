@@ -7,6 +7,7 @@ export interface User {
   name: UserName;
   phone: string;
   address: UserAddress;
+  wishlist: number[];
   __v: number;
 }
 
@@ -28,7 +29,6 @@ export interface Geolocation {
   long: string;
 }
 
-// Auth related types
 export interface LoginCredentials {
   email: string;
   password: string;

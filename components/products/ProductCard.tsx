@@ -5,6 +5,7 @@ import { HeartIcon, ShoppingCartIcon, EyeIcon, StarIcon } from '@heroicons/react
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useWishlist } from '@/context/WishlistContext';
 
 interface ExtendedProductCardProps extends ProductCardProps {
   viewMode?: 'grid' | 'list';
@@ -17,14 +18,21 @@ export default function ProductCard({
   onViewDetails,
   viewMode = 'grid'
 }: ExtendedProductCardProps) {
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isWishlistAnimating, setIsWishlistAnimating] = useState(false);
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const isWishlisted = isInWishlist(product.id);
 
   const handleWishlistToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
-    onAddToWishlist?.(product);
+    if (isWishlisted) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+      setIsWishlistAnimating(true);
+      setTimeout(() => setIsWishlistAnimating(false), 200);
+    }
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -68,11 +76,13 @@ export default function ProductCard({
                 onClick={handleWishlistToggle}
                 className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
               >
-                {isWishlisted ? (
-                  <HeartSolidIcon className="w-5 h-5 text-red-500" />
-                ) : (
-                  <HeartIcon className="w-5 h-5 text-gray-600" />
-                )}
+                <span className={`inline-flex items-center justify-center transition-transform ${isWishlistAnimating ? 'scale-125' : 'scale-100'}`}>
+                  {isWishlisted ? (
+                    <HeartSolidIcon className="w-5 h-5 text-red-500" />
+                  ) : (
+                    <HeartIcon className="w-5 h-5 text-gray-600" />
+                  )}
+                </span>
               </button>
             </div>
           </div>
@@ -186,11 +196,13 @@ export default function ProductCard({
                 onClick={handleWishlistToggle}
                 className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
               >
-                {isWishlisted ? (
-                  <HeartSolidIcon className="w-5 h-5 text-red-500" />
-                ) : (
-                  <HeartIcon className="w-5 h-5 text-gray-600" />
-                )}
+                <span className={`inline-flex items-center justify-center transition-transform ${isWishlistAnimating ? 'scale-125' : 'scale-100'}`}>
+                  {isWishlisted ? (
+                    <HeartSolidIcon className="w-5 h-5 text-red-500" />
+                  ) : (
+                    <HeartIcon className="w-5 h-5 text-gray-600" />
+                  )}
+                </span>
               </button>
 
               <button
