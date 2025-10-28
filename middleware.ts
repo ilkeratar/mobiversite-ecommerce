@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 const AUTH_COOKIE_NAME = 'auth_user';
 
-const protectedRoutes = ['/profile', '/wishlist'];
+const protectedRoutes = ['/profile', '/wishlist', '/checkout'];
 const publicOnlyRoutes = ['/login', '/register'];
 
 export function middleware(request: NextRequest) {
@@ -16,7 +16,9 @@ export function middleware(request: NextRequest) {
   );
 
   if (isProtectedRoute && !cookie) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   const isPublicOnlyRoute = publicOnlyRoutes.some((route) =>

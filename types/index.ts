@@ -14,6 +14,7 @@ export { ProductSortBy } from './product';
 export type { 
   User, 
   UserName, 
+  Address,
   UserAddress, 
   Geolocation, 
   LoginCredentials, 
@@ -33,3 +34,11 @@ export type {
   PaginationParams, 
   SearchParams 
 } from './common';
+
+export type { 
+  Order, 
+  OrderSummary, 
+  CreateOrderPayload 
+} from './order';
+
+export { OrderStatus } from './order';

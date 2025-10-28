@@ -3,8 +3,12 @@
 import Link from "next/link";
 import { login, AuthState } from "@/lib/actions";
 import React from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/';
+  
   const [state, formAction] = React.useActionState<AuthState | undefined, FormData>(
     login,
     undefined
@@ -23,6 +27,7 @@ export default function LoginPage() {
       </div>
 
       <form className="space-y-6" action={formAction}>
+        <input type="hidden" name="redirect" value={redirect} />
         {state?.error && (
             <div className="rounded-md border border-red-300 bg-red-50 p-3">
               <p className="text-sm font-medium text-red-700">{state.error}</p>

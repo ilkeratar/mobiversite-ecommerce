@@ -916,16 +916,6 @@
   ],
   "users": [
     {
-      "address": {
-        "geolocation": {
-          "lat": "-37.3159",
-          "long": "81.1496"
-        },
-        "city": "kilcoole",
-        "street": "new road",
-        "number": 7682,
-        "zipcode": "12926-3874"
-      },
       "id": 1,
       "email": "john@gmail.com",
       "password": "m38rmF$",
@@ -934,22 +924,21 @@
         "lastname": "doe"
       },
       "phone": "1-570-236-7033",
+      "address": {
+        "addressLine": "7682 New Road",
+        "city": "Kilcoole",
+        "state": "California",
+        "zipcode": "12926-3874",
+        "country": "USA"
+      },
       "wishlist": [
-        3
+        3,
+        2,
+        1
       ],
       "__v": 0
     },
     {
-      "address": {
-        "geolocation": {
-          "lat": "-37.3159",
-          "long": "81.1496"
-        },
-        "city": "kilcoole",
-        "street": "Lovers Ln",
-        "number": 7267,
-        "zipcode": "12926-3874"
-      },
       "id": 2,
       "email": "morrison@gmail.com",
       "password": "83r5^_",
@@ -958,23 +947,17 @@
         "lastname": "morrison"
       },
       "phone": "1-570-236-7033",
-      "wishlist": [
-        2,
-        6
-      ],
+      "address": {
+        "addressLine": "7267 Lovers Ln",
+        "city": "Kilcoole",
+        "state": "California",
+        "zipcode": "12926-3874",
+        "country": "USA"
+      },
+      "wishlist": [],
       "__v": 0
     },
     {
-      "address": {
-        "geolocation": {
-          "lat": "40.3467",
-          "long": "-30.1310"
-        },
-        "city": "Cullman",
-        "street": "Frances Ct",
-        "number": 86,
-        "zipcode": "29567-1452"
-      },
       "id": 3,
       "email": "kevin@gmail.com",
       "password": "kev02937@",
@@ -1019,12 +1002,470 @@
           "id": 1,
           "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
           "price": 109.95,
-          "quantity": 1
+          "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+          "rating": {
+            "rate": 3.9,
+            "count": 120
+          },
+          "details": {
+            "inStock": true,
+            "sku": "SKU-0001",
+            "brand": "Nike",
+            "weight": "0.2-0.5 kg",
+            "dimensions": "Varies by size",
+            "sizes": [
+              "XS",
+              "S",
+              "XL"
+            ],
+            "colors": [
+              "Black",
+              "White",
+              "Red"
+            ],
+            "material": [
+              "100% Cotton",
+              "Cotton Blend",
+              "Polyester",
+              "Linen"
+            ],
+            "fit": [
+              "Slim Fit",
+              "Regular Fit",
+              "Relaxed Fit"
+            ]
+          },
+          "quantity": 1,
+          "selectedOptions": {
+            "size": "M",
+            "color": "Black"
+          },
+          "addedAt": "2021-01-01T10:00:00.000Z"
         }
       ],
       "totalPrice": 109.95,
       "status": "completed",
-      "createdAt": "2021-01-01"
+      "createdAt": "2021-01-01T10:00:00.000Z",
+      "updatedAt": "2021-01-01T15:30:00.000Z",
+      "shippingAddress": {
+        "addressLine": "7682 New Road",
+        "city": "Kilcoole",
+        "state": "California",
+        "zipcode": "12926-3874",
+        "country": "USA"
+      },
+      "paymentMethod": "credit_card"
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "id": 1,
+          "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95,
+          "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+          "rating": {
+            "rate": 3.9,
+            "count": 120
+          },
+          "details": {
+            "inStock": true,
+            "sku": "SKU-0001",
+            "brand": "Nike",
+            "weight": "0.2-0.5 kg",
+            "dimensions": "Varies by size",
+            "sizes": [
+              "XS",
+              "S",
+              "XL"
+            ],
+            "colors": [
+              "Black",
+              "White",
+              "Red"
+            ],
+            "material": [
+              "100% Cotton",
+              "Cotton Blend",
+              "Polyester",
+              "Linen"
+            ],
+            "fit": [
+              "Slim Fit",
+              "Regular Fit",
+              "Relaxed Fit"
+            ]
+          },
+          "quantity": 1,
+          "addedAt": "2025-10-28T18:11:18.413Z"
+        },
+        {
+          "id": 3,
+          "title": "Mens Cotton Jacket",
+          "price": 55.99,
+          "description": "great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
+          "rating": {
+            "rate": 4.7,
+            "count": 500
+          },
+          "details": {
+            "inStock": true,
+            "sku": "SKU-0003",
+            "brand": "Levi's",
+            "weight": "0.2-0.5 kg",
+            "dimensions": "Varies by size",
+            "sizes": [
+              "XS",
+              "S",
+              "M",
+              "L",
+              "XL",
+              "XXL"
+            ],
+            "colors": [
+              "Black",
+              "White",
+              "Navy",
+              "Gray",
+              "Red"
+            ],
+            "material": [
+              "100% Cotton",
+              "Cotton Blend",
+              "Polyester",
+              "Linen"
+            ],
+            "fit": [
+              "Slim Fit",
+              "Regular Fit",
+              "Relaxed Fit"
+            ]
+          },
+          "quantity": 1,
+          "addedAt": "2025-10-28T18:11:18.413Z"
+        }
+      ],
+      "totalPrice": 210.81,
+      "status": "completed",
+      "createdAt": "2025-10-28T19:06:20.918Z",
+      "shippingAddress": {
+        "addressLine": "7682 New Road",
+        "city": "Kilcoole",
+        "state": "California",
+        "zipcode": "12926-3874",
+        "country": "USA"
+      },
+      "paymentMethod": "paypal",
+      "notes": "a",
+      "id": 2
+    },
+    {
+      "userId": 2,
+      "items": [
+        {
+          "id": 2,
+          "title": "Mens Casual Premium Slim Fit T-Shirts ",
+          "price": 22.3,
+          "description": "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
+          "rating": {
+            "rate": 4.1,
+            "count": 259
+          },
+          "details": {
+            "inStock": true,
+            "sku": "SKU-0002",
+            "brand": "Tommy Hilfiger",
+            "weight": "0.2-0.5 kg",
+            "dimensions": "Varies by size",
+            "sizes": [
+              "XS",
+              "S",
+              "M",
+              "L",
+              "XL",
+              "XXL"
+            ],
+            "colors": [
+              "Black",
+              "White",
+              "Navy",
+              "Gray",
+              "Red"
+            ],
+            "material": [
+              "100% Cotton",
+              "Cotton Blend",
+              "Polyester",
+              "Linen"
+            ],
+            "fit": [
+              "Slim Fit",
+              "Regular Fit",
+              "Relaxed Fit"
+            ]
+          },
+          "quantity": 1,
+          "addedAt": "2025-10-28T19:44:47.982Z"
+        }
+      ],
+      "totalPrice": 41.31,
+      "status": "completed",
+      "createdAt": "2025-10-28T19:58:39.412Z",
+      "shippingAddress": {
+        "addressLine": "7267 Lovers Ln",
+        "city": "Kilcoole",
+        "state": "California",
+        "zipcode": "12926-3874",
+        "country": "USA"
+      },
+      "paymentMethod": "credit_card",
+      "notes": "",
+      "id": 3
+    },
+    {
+      "userId": 2,
+      "items": [
+        {
+          "id": 1,
+          "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95,
+          "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+          "rating": {
+            "rate": 3.9,
+            "count": 120
+          },
+          "details": {
+            "inStock": true,
+            "sku": "SKU-0001",
+            "brand": "Nike",
+            "weight": "0.2-0.5 kg",
+            "dimensions": "Varies by size",
+            "sizes": [
+              "XS",
+              "S",
+              "XL"
+            ],
+            "colors": [
+              "Black",
+              "White",
+              "Red"
+            ],
+            "material": [
+              "100% Cotton",
+              "Cotton Blend",
+              "Polyester",
+              "Linen"
+            ],
+            "fit": [
+              "Slim Fit",
+              "Regular Fit",
+              "Relaxed Fit"
+            ]
+          },
+          "quantity": 1,
+          "addedAt": "2025-10-28T19:58:50.633Z"
+        }
+      ],
+      "totalPrice": 144.74,
+      "status": "completed",
+      "createdAt": "2025-10-28T20:05:17.264Z",
+      "shippingAddress": {
+        "addressLine": "7267 Lovers Ln",
+        "city": "Kilcoole",
+        "state": "California",
+        "zipcode": "12926-3874",
+        "country": "USA"
+      },
+      "paymentMethod": "paypal",
+      "notes": "",
+      "id": 4
+    },
+    {
+      "userId": 2,
+      "items": [
+        {
+          "id": 2,
+          "title": "Mens Casual Premium Slim Fit T-Shirts ",
+          "price": 22.3,
+          "description": "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
+          "rating": {
+            "rate": 4.1,
+            "count": 259
+          },
+          "details": {
+            "inStock": true,
+            "sku": "SKU-0002",
+            "brand": "Tommy Hilfiger",
+            "weight": "0.2-0.5 kg",
+            "dimensions": "Varies by size",
+            "sizes": [
+              "XS",
+              "S",
+              "M",
+              "L",
+              "XL",
+              "XXL"
+            ],
+            "colors": [
+              "Black",
+              "White",
+              "Navy",
+              "Gray",
+              "Red"
+            ],
+            "material": [
+              "100% Cotton",
+              "Cotton Blend",
+              "Polyester",
+              "Linen"
+            ],
+            "fit": [
+              "Slim Fit",
+              "Regular Fit",
+              "Relaxed Fit"
+            ]
+          },
+          "quantity": 1,
+          "addedAt": "2025-10-28T20:05:27.282Z"
+        }
+      ],
+      "totalPrice": 41.31,
+      "status": "completed",
+      "createdAt": "2025-10-28T20:05:35.806Z",
+      "shippingAddress": {
+        "addressLine": "7267 Lovers Ln",
+        "city": "Kilcoole",
+        "state": "California",
+        "zipcode": "12926-3874",
+        "country": "USA"
+      },
+      "paymentMethod": "cash_on_delivery",
+      "notes": "",
+      "id": 5
+    },
+    {
+      "userId": 2,
+      "items": [
+        {
+          "id": 3,
+          "title": "Mens Cotton Jacket",
+          "price": 55.99,
+          "description": "great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
+          "rating": {
+            "rate": 4.7,
+            "count": 500
+          },
+          "details": {
+            "inStock": true,
+            "sku": "SKU-0003",
+            "brand": "Levi's",
+            "weight": "0.2-0.5 kg",
+            "dimensions": "Varies by size",
+            "sizes": [
+              "XS",
+              "S",
+              "M",
+              "L",
+              "XL",
+              "XXL"
+            ],
+            "colors": [
+              "Black",
+              "White",
+              "Navy",
+              "Gray",
+              "Red"
+            ],
+            "material": [
+              "100% Cotton",
+              "Cotton Blend",
+              "Polyester",
+              "Linen"
+            ],
+            "fit": [
+              "Slim Fit",
+              "Regular Fit",
+              "Relaxed Fit"
+            ]
+          },
+          "quantity": 1,
+          "addedAt": "2025-10-28T20:07:50.366Z"
+        },
+        {
+          "id": 2,
+          "title": "Mens Casual Premium Slim Fit T-Shirts ",
+          "price": 22.3,
+          "description": "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
+          "rating": {
+            "rate": 4.1,
+            "count": 259
+          },
+          "details": {
+            "inStock": true,
+            "sku": "SKU-0002",
+            "brand": "Tommy Hilfiger",
+            "weight": "0.2-0.5 kg",
+            "dimensions": "Varies by size",
+            "sizes": [
+              "XS",
+              "S",
+              "M",
+              "L",
+              "XL",
+              "XXL"
+            ],
+            "colors": [
+              "Black",
+              "White",
+              "Navy",
+              "Gray",
+              "Red"
+            ],
+            "material": [
+              "100% Cotton",
+              "Cotton Blend",
+              "Polyester",
+              "Linen"
+            ],
+            "fit": [
+              "Slim Fit",
+              "Regular Fit",
+              "Relaxed Fit"
+            ]
+          },
+          "quantity": 1,
+          "addedAt": "2025-10-28T20:07:51.066Z"
+        }
+      ],
+      "totalPrice": 107.38,
+      "status": "completed",
+      "createdAt": "2025-10-28T20:08:11.132Z",
+      "shippingAddress": {
+        "addressLine": "7267 Lovers Ln",
+        "city": "Kilcoole",
+        "state": "California",
+        "zipcode": "12926-3874",
+        "country": "USA"
+      },
+      "paymentMethod": "credit_card",
+      "notes": "",
+      "id": 6
     }
   ]
 }

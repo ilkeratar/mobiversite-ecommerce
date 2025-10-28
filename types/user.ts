@@ -1,12 +1,10 @@
-// User related types
-
 export interface User {
   id: number;
   email: string;
   password: string;
   name: UserName;
   phone: string;
-  address: UserAddress;
+  address: Address;
   wishlist: number[];
   __v: number;
 }
@@ -14,6 +12,14 @@ export interface User {
 export interface UserName {
   firstname: string;
   lastname: string;
+}
+
+export interface Address {
+  addressLine: string;
+  city: string;
+  state?: string;
+  zipcode: string;
+  country: string;
 }
 
 export interface UserAddress {
@@ -46,5 +52,5 @@ export interface AuthUser {
   email: string;
   name: UserName;
   phone: string;
-  address?: UserAddress;
+  address?: Address;
 }

@@ -6,29 +6,36 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Trash2, ShoppingBag, ArrowLeft, Plus, Minus, Tag, X } from 'lucide-react';
 import Breadcrumb from '@/components/ui/Breadcrumb';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 
 const SHIPPING_RATE = 15.00;
 const TAX_RATE = 0.18;
-const VALID_PROMO_CODE = 'MOBIVERSITE';
-const PROMO_DISCOUNT_RATE = 0.20;
 
 export default function CartPage() {
-  const { items, stats, isLoading, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { 
+    items, 
+    stats, 
+    isLoading, 
+    updateQuantity, 
+    removeFromCart, 
+    clearCart,
+    appliedPromoCode,
+    promoDiscount,
+    applyPromoCode,
+    removePromoCode
+  } = useCart();
   const [isClearing, setIsClearing] = useState(false);
-  
+  const { user } = useAuth();
+  const router = useRouter();
+
   const [promoCode, setPromoCode] = useState('');
-  const [appliedPromoCode, setAppliedPromoCode] = useState('');
   const [promoError, setPromoError] = useState('');
 
   const subtotal = stats?.totalPrice ?? 0;
   const shipping = items && items.length > 0 ? SHIPPING_RATE : 0;
   const tax = Number((subtotal * TAX_RATE).toFixed(2));
-  
-  const promoDiscount = appliedPromoCode === VALID_PROMO_CODE 
-    ? Number((subtotal * PROMO_DISCOUNT_RATE).toFixed(2))
-    : 0;
-  
   const total = Number((subtotal + shipping + tax - promoDiscount).toFixed(2));
 
   const handleClearCart = () => {
@@ -40,25 +47,24 @@ export default function CartPage() {
   };
 
   const handleApplyPromoCode = () => {
-    const trimmedCode = promoCode.trim().toUpperCase();
+    const trimmedCode = promoCode.trim();
     
     if (!trimmedCode) {
       setPromoError('Please enter a promo code');
       return;
     }
     
-    if (trimmedCode === VALID_PROMO_CODE) {
-      setAppliedPromoCode(trimmedCode);
+    const success = applyPromoCode(trimmedCode);
+    if (success) {
       setPromoError('');
       setPromoCode('');
     } else {
       setPromoError('Invalid promo code');
-      setAppliedPromoCode('');
     }
   };
 
   const handleRemovePromoCode = () => {
-    setAppliedPromoCode('');
+    removePromoCode();
     setPromoCode('');
     setPromoError('');
   };
@@ -76,6 +82,14 @@ export default function CartPage() {
     const newQuantity = currentQuantity + change;
     if (newQuantity > 0 && newQuantity <= 99) {
       updateQuantity(productId, newQuantity, selectedOptions);
+    }
+  };
+
+  const handleCheckout = () => {
+    if (!user) {
+      router.push('/login?redirect=/checkout');
+    } else {
+      router.push('/checkout');
     }
   };
 
@@ -362,6 +376,7 @@ export default function CartPage() {
               <button
                 disabled={items.some(item => item.details && !item.details.inStock)}
                 className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-base disabled:bg-gray-300 disabled:cursor-not-allowed"
+                onClick={handleCheckout}
               >
                 {items.some(item => item.details && !item.details.inStock) 
                   ? 'Item Out of Stock' 

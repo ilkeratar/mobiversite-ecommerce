@@ -12,24 +12,32 @@ import { Product, CartItem, CartStats } from '@/types';
 import * as CartUtils from '@/lib/cartUtils';
 
 const CART_STORAGE_KEY = 'ecomversite_cart';
+const PROMO_STORAGE_KEY = 'ecomversite_promo';
 
 interface CartContextType {
   items: CartItem[];
   stats: CartStats;
   isLoading: boolean;
+  appliedPromoCode: string;
+  promoDiscount: number;
   addToCart: (product: Product, quantity?: number, selectedOptions?: CartItem['selectedOptions']) => void;
   removeFromCart: (productId: number, selectedOptions?: CartItem['selectedOptions']) => void;
   updateQuantity: (productId: number, quantity: number, selectedOptions?: CartItem['selectedOptions']) => void;
   clearCart: () => void;
+  applyPromoCode: (code: string) => boolean;
+  removePromoCode: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 
 
+const VALID_PROMO_CODE = 'MOBIVERSITE';
+const PROMO_DISCOUNT_RATE = 0.20;
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
-
+  const [appliedPromoCode, setAppliedPromoCode] = useState<string>('');
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -38,6 +46,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (storedItems) {
         const parsedItems = CartUtils.filterValidCartItems(JSON.parse(storedItems));
         setItems(parsedItems);
+      }
+      
+      const storedPromo = localStorage.getItem(PROMO_STORAGE_KEY);
+      if (storedPromo) {
+        setAppliedPromoCode(storedPromo);
       }
     } catch (error) {
       console.error('Failed to parse cart from localStorage', error);
@@ -51,9 +64,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items, isLoaded]);
 
+  useEffect(() => {
+    if (isLoaded) {
+      if (appliedPromoCode) {
+        localStorage.setItem(PROMO_STORAGE_KEY, appliedPromoCode);
+      } else {
+        localStorage.removeItem(PROMO_STORAGE_KEY);
+      }
+    }
+  }, [appliedPromoCode, isLoaded]);
+
   const stats = useMemo(() => {
     return CartUtils.calculateCartStats(items);
   }, [items]);
+
+  const promoDiscount = useMemo(() => {
+    if (appliedPromoCode === VALID_PROMO_CODE && stats.totalPrice > 0) {
+      return Number((stats.totalPrice * PROMO_DISCOUNT_RATE).toFixed(2));
+    }
+    return 0;
+  }, [appliedPromoCode, stats.totalPrice]);
 
   // Actions 
 
@@ -107,6 +137,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = () => {
     setItems([]);
+    setAppliedPromoCode('');
+  };
+
+  const applyPromoCode = (code: string): boolean => {
+    const trimmedCode = code.trim().toUpperCase();
+    if (trimmedCode === VALID_PROMO_CODE) {
+      setAppliedPromoCode(trimmedCode);
+      return true;
+    }
+    return false;
+  };
+
+  const removePromoCode = () => {
+    setAppliedPromoCode('');
   };
 
   return (
@@ -115,10 +159,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
         items,
         stats,
         isLoading: !isLoaded,
+        appliedPromoCode,
+        promoDiscount,
         addToCart,
         removeFromCart,
         updateQuantity,
         clearCart,
+        applyPromoCode,
+        removePromoCode,
       }}
     >
       {children}
