@@ -69,7 +69,6 @@ export default function WishlistPage() {
   }
 
   return (
-    <div className="bg-white">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <div className="mb-8">
@@ -118,9 +117,7 @@ export default function WishlistPage() {
             ))}
           </div>
         </div>
-
       </div>
-    </div>
   );
 }
 

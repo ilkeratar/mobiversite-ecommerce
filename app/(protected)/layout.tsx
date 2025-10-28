@@ -7,10 +7,10 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-gray-50">
       <Navbar />
-      <main className="flex-grow">{children}</main>
+      <main className="flex-grow pt-2">{children}</main>
       <Footer />
     </div>
   );
-}
+} 
