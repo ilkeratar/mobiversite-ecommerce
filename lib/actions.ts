@@ -63,6 +63,94 @@ export async function logout() {
   redirect('/');
 }
 
+export async function register(
+  prevState: AuthState | undefined,
+  formData: FormData
+): Promise<AuthState> {
+  const firstname = String(formData.get('firstname') || '').trim();
+  const lastname = String(formData.get('lastname') || '').trim();
+  const email = String(formData.get('email') || '').trim();
+  const password = String(formData.get('password') || '');
+  const confirmPassword = String(formData.get('confirmPassword') || '');
+  const redirectPath = String(formData.get('redirect') || '/');
+
+  // Validation
+  if (!firstname || !lastname || !email || !password || !confirmPassword) {
+    return { error: 'All fields are required' };
+  }
+
+  if (password !== confirmPassword) {
+    return { error: 'Passwords do not match' };
+  }
+
+  if (password.length < 6) {
+    return { error: 'Password must be at least 6 characters long' };
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return { error: 'Invalid email format' };
+  }
+
+  // Check if user already exists
+  let existingUsers: User[] = [];
+  try {
+    existingUsers = await apiClient.get('/users', { email });
+  } catch (err) {
+    console.error('Register error:', err);
+    return { error: 'Unexpected error occurred. Please try again later.' };
+  }
+
+  if (Array.isArray(existingUsers) && existingUsers.length > 0) {
+    return { error: 'Email already registered' };
+  }
+
+  // Create new user
+  const newUser: Omit<User, 'id' | '__v'> = {
+    email,
+    password,
+    name: {
+      firstname,
+      lastname,
+    },
+    phone: '',
+    address: {
+      addressLine: '',
+      city: '',
+      zipcode: '',
+      country: '',
+    },
+    wishlist: [],
+  };
+
+  let createdUser: User;
+  try {
+    createdUser = await apiClient.post('/users', newUser);
+  } catch (err) {
+    console.error('Failed to create user:', err);
+    return { error: 'Failed to create account. Please try again later.' };
+  }
+
+  // Auto login after successful registration
+  const maxAge = 60 * 60 * 24 * 7; // 7 days
+
+  const cookieStore = await cookies();
+  cookieStore.set(
+    AUTH_COOKIE_NAME,
+    JSON.stringify({ id: createdUser.id }),
+    {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+      maxAge,
+    }
+  );
+
+  redirect(redirectPath);
+}
+
 export interface CreateOrderState {
   error?: string;
   success?: boolean;

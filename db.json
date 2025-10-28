@@ -968,6 +968,57 @@
       "phone": "1-567-094-1345",
       "wishlist": [],
       "__v": 0
+    },
+    {
+      "email": "ilker@123.co",
+      "password": "123123",
+      "name": {
+        "firstname": "Ilker",
+        "lastname": "Atar"
+      },
+      "phone": "",
+      "address": {
+        "addressLine": "",
+        "city": "",
+        "zipcode": "",
+        "country": ""
+      },
+      "wishlist": [],
+      "id": 4
+    },
+    {
+      "email": "ahmet@kfi.co",
+      "password": "123123",
+      "name": {
+        "firstname": "ahmet",
+        "lastname": "kfi"
+      },
+      "phone": "",
+      "address": {
+        "addressLine": "",
+        "city": "",
+        "zipcode": "",
+        "country": ""
+      },
+      "wishlist": [],
+      "id": 5
+    },
+    {
+      "email": "asd@asd.com",
+      "password": "123123",
+      "name": {
+        "firstname": "Ilker",
+        "lastname": "Atar"
+      },
+      "phone": "",
+      "address": {
+        "addressLine": "",
+        "city": "",
+        "zipcode": "",
+        "country": ""
+      },
+      "wishlist": [],
+      "id": 6
     }
   ],
   "carts": [],

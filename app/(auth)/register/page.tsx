@@ -1,19 +1,39 @@
+'use client';
+
 import Link from "next/link";
+import { register, AuthState } from "@/lib/actions";
+import React from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function RegisterPage() {
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/';
+
+  const [state, formAction, isPending] = React.useActionState<AuthState | undefined, FormData>(
+    register,
+    undefined
+  );
+
   return (
     <>
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Create your account</h1>
         <p className="mt-2 text-sm text-gray-500">
           Already have an account?{" "}
-          <Link href="/login" className="font-semibold text-blue-600 hover:text-blue-500">
+          <Link href={`/login${redirect !== '/' ? `?redirect=${redirect}` : ''}`} className="font-semibold text-blue-600 hover:text-blue-500">
             Sign in
           </Link>
         </p>
       </div>
 
-      <form className="space-y-4">
+      <form className="space-y-4" action={formAction}>
+        <input type="hidden" name="redirect" value={redirect} />
+        {state?.error && (
+          <div className="rounded-md border border-red-300 bg-red-50 p-3">
+            <p className="text-sm font-medium text-red-700">{state.error}</p>
+          </div>
+        )}
+
         <div>
           <label htmlFor="firstname" className="block text-sm font-medium text-gray-700">
             First name
@@ -96,9 +116,10 @@ export default function RegisterPage() {
 
         <button
           type="submit"
-          className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+          disabled={isPending}
+          className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Create account
+          {isPending ? 'Creating account...' : 'Create account'}
         </button>
       </form>
     </>

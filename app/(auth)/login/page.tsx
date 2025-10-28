@@ -9,7 +9,7 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || '/';
   
-  const [state, formAction] = React.useActionState<AuthState | undefined, FormData>(
+  const [state, formAction, isPending] = React.useActionState<AuthState | undefined, FormData>(
     login,
     undefined
   );
@@ -20,7 +20,7 @@ export default function LoginPage() {
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h1>
         <p className="mt-2 text-sm text-gray-500">
           Don't have an account?{" "}
-          <Link href="/register" className="font-semibold text-blue-600 hover:text-blue-500">
+          <Link href={`/register${redirect !== '/' ? `?redirect=${redirect}` : ''}`} className="font-semibold text-blue-600 hover:text-blue-500">
             Register
           </Link>
         </p>
@@ -81,9 +81,10 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+          disabled={isPending}
+          className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Sign in
+          {isPending ? 'Signing in...' : 'Sign in'}
         </button>
       </form>
     </>
