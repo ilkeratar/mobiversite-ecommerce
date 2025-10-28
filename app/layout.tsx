@@ -13,8 +13,31 @@ const inter = Inter({ subsets: ["latin"] });
 const AUTH_COOKIE_NAME = 'auth_user';
 
 export const metadata: Metadata = {
-  title: 'Ecomversite',
-  description: 'ECommerce Test Application',
+  title: {
+    default: 'Ecomversite - Modern E-Commerce Platform',
+    template: '%s | Ecomversite'
+  },
+  description: 'Discover quality products across electronics, fashion, and accessories. Modern shopping experience with secure payments and fast delivery.',
+  keywords: ['e-commerce', 'online shopping', 'electronics', 'fashion', 'jewelry', 'accessories'],
+  authors: [{ name: 'Ecomversite Team' }],
+  
+  // SEO & Social Media
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'tr_TR',
+    siteName: 'Ecomversite',
+    title: 'Ecomversite - Modern E-Commerce Platform',
+    description: 'Discover quality products across electronics, fashion, and accessories.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ecomversite - Modern E-Commerce Platform',
+    description: 'Discover quality products across electronics, fashion, and accessories.',
+  },
 };
 
 async function getUserData(userId: string): Promise<User | null> {
@@ -73,9 +96,13 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en">
+    <html lang="tr" suppressHydrationWarning>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+      </head>
       <body
-        className={inter.className}
+        className={`${inter.className} antialiased`}
+        suppressHydrationWarning
       >
         <AuthProvider initialUser={user}>
           <CartProvider>

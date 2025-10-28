@@ -3,7 +3,10 @@ export type {
   ProductDetails, 
   ProductCardProps, 
   ProductFilters, 
-  ProductCategory 
+  ProductCategory,
+  CartItem,
+  CartItemWithSubtotal,
+  CartStats
 } from './product';
 
 export { ProductSortBy } from './product';

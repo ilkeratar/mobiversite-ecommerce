@@ -66,3 +66,26 @@ export enum ProductSortBy {
   NAME_DESC = 'name_desc',
   NEWEST = 'newest'
 }
+
+export interface CartItem extends Product {
+  quantity: number;
+  selectedOptions?: {
+    size?: string;
+    color?: string;
+    material?: string;
+    storage?: string;
+    [key: string]: string | undefined;
+  };
+  addedAt?: Date;
+}
+
+export interface CartItemWithSubtotal extends CartItem {
+  subtotal: number;
+}
+
+export interface CartStats {
+  totalItems: number;
+  totalPrice: number;
+  uniqueProducts: number;
+  averageItemPrice: number;
+}

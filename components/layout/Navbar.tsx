@@ -26,23 +26,23 @@ export default function Navbar() {
   const userMenuRef = useRef<HTMLDivElement | null>(null);
 
   const { user } = useAuth();
-  const { getTotalItems } = useCart();
+  const { stats } = useCart();
   const { items: wishlistItems } = useWishlist();
-  const cartItemCount = getTotalItems();
+  const cartItemCount = stats?.totalItems ?? 0;
   const wishlistItemCount = (wishlistItems || []).length;
 
-  const computeDisplayName = (u: AppUser | null): string => {
-    if (!u) return 'Login';
-    const first = u.name?.firstname || '';
-    const last = u.name?.lastname || '';
+  const computeDisplayName = (user: AppUser | null): string => {
+    if (!user) return 'Login';
+    const first = user.name?.firstname || '';
+    const last = user.name?.lastname || '';
     const full = `${first} ${last}`.trim();
-    return full || u.email;
+    return full || user.email;
   };
 
-  const computeInitials = (u: AppUser | null): string => {
-    if (!u) return '👤';
-    const first = u.name?.firstname?.[0] || u.email?.[0] || 'U';
-    const last = u.name?.lastname?.[0] || '';
+  const computeInitials = (user: AppUser | null): string => {
+    if (!user) return '👤';
+    const first = user.name?.firstname?.[0] || user.email?.[0] || 'U';
+    const last = user.name?.lastname?.[0] || '';
     return (first + last).toUpperCase();
   };
 
@@ -118,7 +118,7 @@ export default function Navbar() {
             <Link href="/cart" className="relative p-2 text-gray-600 hover:text-gray-800">
               <ShoppingCart className="h-6 w-6" />
               {cartItemCount > 0 && (
-                <span className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs font-bold text-white">
+                <span className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
                   {cartItemCount}
                 </span>
               )}

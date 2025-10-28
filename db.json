@@ -934,7 +934,9 @@
         "lastname": "doe"
       },
       "phone": "1-570-236-7033",
-      "wishlist": [],
+      "wishlist": [
+        3
+      ],
       "__v": 0
     },
     {
