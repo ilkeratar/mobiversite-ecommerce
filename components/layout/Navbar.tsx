@@ -102,10 +102,12 @@ export default function Navbar() {
 
           {/* Right Section */}
           <div className="hidden md:flex md:items-center md:space-x-4">
-            <Link href="/wishlist" className="relative p-2 text-gray-600 hover:text-gray-800">
-              <Heart className="h-6 w-6" />
-              {/* TODO: Wishlist count */}
-            </Link>
+            {user && (
+              <Link href="/wishlist" className="relative p-2 text-gray-600 hover:text-gray-800">
+                <Heart className="h-6 w-6" />
+                {/* TODO: Wishlist count */}
+              </Link>
+            )}
             
             <Link href="/cart" className="relative p-2 text-gray-600 hover:text-gray-800">
               <ShoppingCart className="h-6 w-6" />
@@ -207,47 +209,38 @@ export default function Navbar() {
           <div className="space-y-1 px-2 pb-3 pt-2">
             <Link 
               href="/products" 
-              className="block rounded-md px-3 py-2 text-base font-semibold text-gray-800 hover:bg-gray-100"
+              className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-semibold text-gray-800 hover:bg-gray-100"
               style={{ fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
             >
-              All Products
+              <Package className="h-5 w-5 text-gray-500" />
+              <span>All Products</span>
             </Link>
             <Link 
               href="/cart" 
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+              className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
             >
-              Cart ({cartItemCount})
+              <ShoppingCart className="h-5 w-5 text-gray-500" />
+              <span>Cart ({cartItemCount})</span>
             </Link>
-            <Link 
-              href="/wishlist" 
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
-            >
-              Wishlist
-            </Link>
+            {user && (
+              <Link 
+                href="/wishlist" 
+                className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+              >
+                <Heart className="h-5 w-5 text-gray-500" />
+                <span>Wishlist</span>
+              </Link>
+            )}
                 {!user ? (
                   <Link 
                     href="/login" 
-                    className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 text-base font-medium text-gray-700 cursor-pointer hover:bg-gray-100"
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
                   >
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-50 text-gray-600 ring-1 ring-gray-200">
-                      <User className="h-5 w-5" />
-                    </span>
-                    <span className="flex flex-col leading-tight">
-                      <span className="text-xs font-medium text-gray-500">Helllo,</span>
-                      <span className="text-base font-semibold text-gray-800">Login</span>
-                    </span>
+                    <User className="h-5 w-5 text-gray-500" />
+                    <span>Login</span>
                   </Link>
                 ) : (
                   <div className="space-y-1">
-                    <div className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 cursor-pointer">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-50 text-gray-600 ring-1 ring-gray-200">
-                        <span className="text-sm font-semibold leading-none">{initials}</span>
-                      </span>
-                      <span className="flex flex-col leading-tight">
-                        <span className="text-xs font-medium text-gray-500">Helllo,</span>
-                        <span className="text-base font-semibold text-gray-800">{displayName}</span>
-                      </span>
-                    </div>
                     <Link 
                       href="/profile" 
                       className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
