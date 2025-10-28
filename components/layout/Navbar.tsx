@@ -1,45 +1,43 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { AuthUser } from '@/types';
+import { User as AppUser } from '@/types';
 import { 
   ShoppingCart, 
   Heart, 
   User, 
   Menu, 
   X, 
-  Search 
+  Search,
+  ChevronDown,
+  Package,
+  LogOut
 } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { useCart } from '@/context/CartContext';
+import { logout } from '@/lib/actions';
 
-interface CartItem {
-  id: number;
-  quantity: number;
-}
-
-// TODO
-// import { useAuth } from '@/context/AuthContext';
-// import { useCart } from '@/context/CartContext';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement | null>(null);
 
-  // TODO
-  // const { user, logout } = useAuth();
-  // const { cart } = useCart();
-  
-  // Temporary data (until Context's are connected)
-  const user: AuthUser | null = null; 
-  const cart: CartItem[] = [];
+  const { user } = useAuth();
+  const { getTotalItems } = useCart();
 
-  const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const cartItemCount = getTotalItems();
 
-  const computeDisplayName = (u: AuthUser | null): string => {
+  const computeDisplayName = (u: AppUser | null): string => {
     if (!u) return 'Login';
-    return (u.name?.firstname || u.email);
+    const first = u.name?.firstname || '';
+    const last = u.name?.lastname || '';
+    const full = `${first} ${last}`.trim();
+    return full || u.email;
   };
 
-  const computeInitials = (u: AuthUser | null): string => {
+  const computeInitials = (u: AppUser | null): string => {
     if (!u) return '👤';
     const first = u.name?.firstname?.[0] || u.email?.[0] || 'U';
     const last = u.name?.lastname?.[0] || '';
@@ -48,6 +46,16 @@ export default function Navbar() {
 
   const displayName = computeDisplayName(user);
   const initials = computeInitials(user);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <nav className="sticky top-0 z-50 bg-white justify-between whitespace-nowrap shadow-md">
@@ -108,19 +116,72 @@ export default function Navbar() {
               )}
             </Link>
 
-            <Link
-              href={user ? '/profile' : '/login'}
-              className="group inline-flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 shadow-sm transition-colors transition-shadow duration-200 hover:border-gray-300 hover:shadow-md"
-            >
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-50 text-gray-600 ring-1 ring-gray-200 transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
-                {user ? (
-                  <span className="text-xs font-semibold leading-none">{initials}</span>
-                ) : (
+            {!user ? (
+              <Link
+                href="/login"
+                className="group inline-flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 shadow-sm cursor-pointer transition-colors transition-shadow duration-200 hover:border-gray-300 hover:shadow-md"
+              >
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-50 text-gray-600 ring-1 ring-gray-200 transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
                   <User className="h-4 w-4" />
+                </span>
+                <span className="flex flex-col leading-tight">
+                  <span className="text-[11px] font-medium text-gray-500">Helllo,</span>
+                  <span className="text-sm font-semibold text-gray-800">Login</span>
+                </span>
+              </Link>
+            ) : (
+              <div className="relative" ref={userMenuRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsUserMenuOpen((v) => !v)}
+                  className="group inline-flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 shadow-sm cursor-pointer transition-colors transition-shadow duration-200 hover:border-gray-300 hover:shadow-md"
+                >
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-50 text-gray-600 ring-1 ring-gray-200 transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
+                    <span className="text-xs font-semibold leading-none">{initials}</span>
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="flex flex-col items-start leading-tight">
+                      <span className="text-[11px] font-medium text-gray-500">Helllo,</span>
+                      <span className="text-sm font-semibold text-gray-800">{displayName}</span>
+                    </span>
+                    <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} />
+                  </span>
+                </button>
+
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+                    <div className="py-1">
+                      <Link
+                        href="/profile"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <User className="h-4 w-4 text-gray-500" />
+                        <span>My Account</span>
+                      </Link>
+                      <Link
+                        href="/orders"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <Package className="h-4 w-4 text-gray-500" />
+                        <span>My Orders</span>
+                      </Link>
+                      <div className="my-1 border-t border-gray-200" />
+                      <form action={logout}>
+                        <button
+                          type="submit"
+                          className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+                        >
+                          <LogOut className="h-4 w-4" />
+                          <span>Sign Out</span>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
                 )}
-              </span>
-              <span className="text-sm font-semibold text-gray-800">{displayName}</span>
-            </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -140,7 +201,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu (Open/Close) */}
+          {/* Mobile Menu (Open/Close) */}
       {isMobileMenuOpen && (
         <div className="border-t border-gray-200 md:hidden">
           <div className="space-y-1 px-2 pb-3 pt-2">
@@ -163,19 +224,55 @@ export default function Navbar() {
             >
               Wishlist
             </Link>
-            <Link 
-              href={user ? '/profile' : '/login'} 
-              className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-50 text-gray-600 ring-1 ring-gray-200">
-                {user ? (
-                  <span className="text-sm font-semibold leading-none">{initials}</span>
+                {!user ? (
+                  <Link 
+                    href="/login" 
+                    className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 text-base font-medium text-gray-700 cursor-pointer hover:bg-gray-100"
+                  >
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-50 text-gray-600 ring-1 ring-gray-200">
+                      <User className="h-5 w-5" />
+                    </span>
+                    <span className="flex flex-col leading-tight">
+                      <span className="text-xs font-medium text-gray-500">Helllo,</span>
+                      <span className="text-base font-semibold text-gray-800">Login</span>
+                    </span>
+                  </Link>
                 ) : (
-                  <User className="h-5 w-5" />
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 cursor-pointer">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-50 text-gray-600 ring-1 ring-gray-200">
+                        <span className="text-sm font-semibold leading-none">{initials}</span>
+                      </span>
+                      <span className="flex flex-col leading-tight">
+                        <span className="text-xs font-medium text-gray-500">Helllo,</span>
+                        <span className="text-base font-semibold text-gray-800">{displayName}</span>
+                      </span>
+                    </div>
+                    <Link 
+                      href="/profile" 
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+                    >
+                      <User className="h-5 w-5 text-gray-500" />
+                      <span>My Account</span>
+                    </Link>
+                    <Link 
+                      href="/orders" 
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+                    >
+                      <Package className="h-5 w-5 text-gray-500" />
+                      <span>My Orders</span>
+                    </Link>
+                    <form action={logout}>
+                      <button 
+                        type="submit" 
+                        className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-base font-medium text-red-600 hover:bg-gray-100"
+                      >
+                        <LogOut className="h-5 w-5" />
+                        <span>Sign Out</span>
+                      </button>
+                    </form>
+                  </div>
                 )}
-              </span>
-              <span className="text-gray-800">{displayName}</span>
-            </Link>
           </div>
         </div>
       )}

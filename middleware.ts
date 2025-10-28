@@ -4,7 +4,6 @@ import type { NextRequest } from 'next/server';
 const AUTH_COOKIE_NAME = 'auth_user';
 
 const protectedRoutes = ['/profile', '/wishlist'];
-
 const publicOnlyRoutes = ['/login', '/register'];
 
 export function middleware(request: NextRequest) {

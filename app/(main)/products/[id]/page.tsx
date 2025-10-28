@@ -6,7 +6,9 @@ interface ProductPageProps {
 }
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
-  const product = await getProductById(Number(params.id));
+  const { id } = await params;
+  const product = await getProductById(Number(id));
+  
   return <ProductDetailClient product={product} />;
 }
 
