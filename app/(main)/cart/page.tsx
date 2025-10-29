@@ -143,7 +143,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 overflow-x-hidden">
       {/* Breadcrumb */}
       <Breadcrumb items={breadcrumbItems} className="mb-6" />
       
@@ -152,12 +152,12 @@ export default function CartPage() {
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Shopping Cart</h1>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid lg:grid-cols-3 gap-4 lg:gap-8">
         {/* Left Side - Cart Items */}
         <div className="lg:col-span-2">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
             {/* Cart Items Header */}
-            <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+            <div className="px-3 sm:px-6 py-4 border-b border-gray-200 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900">Products</h2>
               <button
                 onClick={handleClearCart}
@@ -176,13 +176,13 @@ export default function CartPage() {
                 return (
                   <div
                     key={`${item.id}-${JSON.stringify(item.selectedOptions)}`}
-                    className="p-6 hover:bg-gray-50 transition-colors"
+                    className="p-3 sm:p-6 hover:bg-gray-50 transition-colors"
                   >
-                    <div className="flex gap-4">
+                    <div className="flex gap-3 sm:gap-4">
                       {/* Product Image */}
                       <Link
                         href={`/products/${item.id}`}
-                        className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-blue-500 transition-colors"
+                        className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-blue-500 transition-colors"
                       >
                         {item.image ? (
                           <Image
@@ -240,16 +240,16 @@ export default function CartPage() {
                         )}
 
                         {/* Price and Quantity Controls */}
-                        <div className="flex items-center justify-between gap-4 mt-4">
-                          <div className="flex items-center gap-3">
-                            <span className="text-sm text-gray-600">Quantity:</span>
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mt-4">
+                          <div className="flex items-center gap-2 sm:gap-3">
+                            <span className="text-xs sm:text-sm text-gray-600">Qty:</span>
                             <div className="flex items-center border border-gray-300 rounded-lg">
                               <button
                                 onClick={() => handleQuantityChange(item.id, item.quantity, -1, item.selectedOptions)}
                                 disabled={item.quantity <= 1}
-                                className="p-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-l-lg"
+                                className="p-1.5 sm:p-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-l-lg"
                               >
-                                <Minus className="w-4 h-4 text-gray-600" />
+                                <Minus className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" />
                               </button>
                               <input
                                 type="number"
@@ -262,23 +262,23 @@ export default function CartPage() {
                                     updateQuantity(item.id, newQuantity, item.selectedOptions);
                                   }
                                 }}
-                                className="w-14 text-center border-x border-gray-300 py-2 text-sm font-medium focus:outline-none"
+                                className="w-10 sm:w-14 text-center border-x border-gray-300 py-1.5 sm:py-2 text-xs sm:text-sm font-medium focus:outline-none"
                               />
                               <button
                                 onClick={() => handleQuantityChange(item.id, item.quantity, 1, item.selectedOptions)}
                                 disabled={item.quantity >= 99}
-                                className="p-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-r-lg"
+                                className="p-1.5 sm:p-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-r-lg"
                               >
-                                <Plus className="w-4 h-4 text-gray-600" />
+                                <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" />
                               </button>
                             </div>
                           </div>
 
-                          <div className="text-right">
+                          <div className="text-left sm:text-right w-full sm:w-auto">
                             <div className="text-xs text-gray-500 mb-1">
                               ${item.price.toFixed(2)} x {item.quantity}
                             </div>
-                            <div className="text-lg font-bold text-gray-900">
+                            <div className="text-base sm:text-lg font-bold text-gray-900">
                               ${itemSubtotal.toFixed(2)}
                             </div>
                           </div>
@@ -308,7 +308,7 @@ export default function CartPage() {
             </div>
 
             {/* Continue Shopping */}
-            <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+            <div className="px-3 sm:px-6 py-4 bg-gray-50 border-t border-gray-200">
               <Link
                 href="/products"
                 className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
@@ -322,12 +322,12 @@ export default function CartPage() {
 
         {/* Right Side - Order Summary */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 sticky top-4">
-            <div className="px-6 py-4 border-b border-gray-200">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 lg:sticky lg:top-4">
+            <div className="px-3 sm:px-6 py-4 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-900">Order Summary</h2>
             </div>
 
-            <div className="px-6 py-4 space-y-4">
+            <div className="px-3 sm:px-6 py-4 space-y-4">
               {/* Subtotal */}
               <div className="flex items-center justify-between text-gray-700">
                 <span className="text-sm">Subtotal</span>
@@ -451,7 +451,7 @@ export default function CartPage() {
                       </span>
                     </summary>
                     <div className="mt-3 space-y-2">
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <input
                           type="text"
                           value={promoCode}
@@ -469,7 +469,7 @@ export default function CartPage() {
                         />
                         <button 
                           onClick={handleApplyPromoCode}
-                          className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors text-sm font-medium"
+                          className="w-full sm:w-auto px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors text-sm font-medium"
                         >
                           Apply
                         </button>
@@ -491,22 +491,22 @@ export default function CartPage() {
           </div>
 
           {/* Cart Statistics */}
-          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div className="mt-4 lg:mt-6 bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4">
             <h3 className="text-sm font-semibold text-blue-900 mb-3">
               Cart Statistics
             </h3>
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div>
                 <div className="text-blue-600 mb-1">Total Items</div>
-                <div className="text-lg font-bold text-blue-900">{stats?.totalItems ?? 0}</div>
+                <div className="text-base sm:text-lg font-bold text-blue-900">{stats?.totalItems ?? 0}</div>
               </div>
               <div>
                 <div className="text-blue-600 mb-1">Unique Products</div>
-                <div className="text-lg font-bold text-blue-900">{stats?.uniqueProducts ?? 0}</div>
+                <div className="text-base sm:text-lg font-bold text-blue-900">{stats?.uniqueProducts ?? 0}</div>
               </div>
               <div className="col-span-2">
                 <div className="text-blue-600 mb-1">Average Item Price</div>
-                <div className="text-lg font-bold text-blue-900">
+                <div className="text-base sm:text-lg font-bold text-blue-900">
                   ${(stats?.averageItemPrice ?? 0).toFixed(2)}
                 </div>
               </div>

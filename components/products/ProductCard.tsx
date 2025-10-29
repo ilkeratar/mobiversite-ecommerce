@@ -111,8 +111,8 @@ export default function ProductCard({
                 isWishlistLoading 
                   ? 'cursor-not-allowed opacity-100' 
                   : 'hover:bg-white hover:scale-110'
-              } ${
-                isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+              } opacity-100 translate-y-0 ${
+                isHovered ? 'md:opacity-100 md:translate-y-0' : 'md:opacity-0 md:-translate-y-2'
               }`}
             >
               {isWishlistLoading ? (

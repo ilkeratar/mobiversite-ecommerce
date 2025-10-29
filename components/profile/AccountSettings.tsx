@@ -217,7 +217,7 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
               <button
                 type="submit"
                 disabled={isPendingPersonal}
-                className="px-6 py-2 text-sm bg-gray-900 text-white rounded hover:bg-gray-800 cursor-pointer transition-colors disabled:bg-gray-400"
+                className="px-6 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-500 cursor-pointer transition-colors disabled:bg-blue-400"
               >
                 {isPendingPersonal ? 'Saving...' : 'Save'}
               </button>
@@ -390,7 +390,7 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
               <button
                 type="submit"
                 disabled={isPending}
-                className="px-6 py-2 text-sm bg-gray-900 text-white rounded hover:bg-gray-800 cursor-pointer transition-colors disabled:bg-gray-400"
+                className="px-6 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-500 cursor-pointer transition-colors disabled:bg-blue-400"
               >
                 {isPending ? 'Saving...' : 'Save'}
               </button>
