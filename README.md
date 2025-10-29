@@ -4,10 +4,15 @@ This project was prepared as part of an e‑commerce application development tas
 
 ---
 
-## Live Demo & API
+## Live Demo & Test Credentials
 
 * **Live Demo (Vercel):** https://ecomiversite.vercel.app/
 * **API Endpoint (Render):** https://ecomiversite-api.onrender.com
+
+When testing the live demo, you can create a new account or log in using the test credentials below.
+
+* **Test User Email:** `ilker@atar.com`
+* **Test User Password:** `123123`
 
 ---
 
