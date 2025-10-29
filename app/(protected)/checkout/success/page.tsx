@@ -123,6 +123,7 @@ export default function OrderSuccessPage() {
             Your order has been successfully placed and is being processed.
           </p>
 
+          {/* Order Details */}
           {orderId && (
             <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl">
               <p className="text-sm text-blue-800 font-medium mb-2">Your Order Number</p>
@@ -133,7 +134,6 @@ export default function OrderSuccessPage() {
             </div>
           )}
 
-          {/* What's Next Section */}
           <div className="bg-gray-50 rounded-lg p-6 mb-8">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">What happens next?</h3>
             <div className="space-y-4 text-left">
@@ -173,7 +173,6 @@ export default function OrderSuccessPage() {
             </div>
           </div>
 
-          {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="p-6 bg-gradient-to-br from-blue-50 to-white rounded-xl border border-blue-100 hover:shadow-md transition-shadow">
               <Truck className="w-10 h-10 text-blue-600 mx-auto mb-3" />
@@ -192,7 +191,6 @@ export default function OrderSuccessPage() {
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/profile?tab=orders"
@@ -218,7 +216,6 @@ export default function OrderSuccessPage() {
           </div>
         </div>
 
-        {/* Support Section */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
           <AlertCircle className="w-8 h-8 text-blue-600 mx-auto mb-3" />
           <h3 className="font-semibold text-gray-900 mb-2">Need Help?</h3>

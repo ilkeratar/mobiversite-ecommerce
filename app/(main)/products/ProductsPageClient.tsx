@@ -16,6 +16,7 @@ import {
 import { ChevronDownIcon, FunnelIcon, Squares2X2Icon } from '@heroicons/react/20/solid';
 import { ListBulletIcon } from '@heroicons/react/24/outline';
 import { toast } from 'react-hot-toast';
+import { applyFilters } from '@/lib/productUtils';
 
 interface ProductsPageClientProps {
   initialProducts: Product[];
@@ -40,11 +41,11 @@ export default function ProductsPageClient({
   categories 
 }: ProductsPageClientProps) {
   const searchParams = useSearchParams();
-  const initialSearchQuery = searchParams.get('search') || '';
   
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [filters, setFilters] = useState<ProductFilters>({
-    search: initialSearchQuery
+    search: searchParams.get('search') || undefined,
+    category: searchParams.get('category') || undefined, 
   });
   const [sortBy, setSortBy] = useState<ProductSortBy>(ProductSortBy.NEWEST);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -55,56 +56,8 @@ export default function ProductsPageClient({
   const router = useRouter();
 
   const filteredAndSortedProducts = useMemo(() => {
-    
-    let filtered = products.filter(product => {
-      
-      if (filters.category && product.category.toLowerCase() !== filters.category.toLowerCase()) {
-        return false;
-      }
-      if (filters.minPrice !== undefined && product.price < filters.minPrice) {
-        return false;
-      }
-      if (filters.maxPrice !== undefined && product.price > filters.maxPrice) {
-        return false;
-      }
-      if (filters.inStock && !product.details.inStock) {
-        return false;
-      }
-      if (filters.rating !== undefined && product.rating.rate < filters.rating) {
-        return false;
-      }
-      if (filters.brand && product.details.brand !== filters.brand) {
-        return false;
-      }
-      if (filters.size) {
-        const sizes = product.details.sizes || product.details.size;
-        if (!sizes || !sizes.includes(filters.size)) return false;
-      }
-      if (filters.color) {
-        const colors = product.details.colors || product.details.color;
-        if (!colors || !colors.includes(filters.color)) return false;
-      }
-      if (filters.material) {
-        const materials = product.details.material;
-        if (!materials || !materials.includes(filters.material)) return false;
-      }
-      if (filters.storage) {
-        const storages = product.details.storage;
-        if (!storages || !storages.includes(filters.storage)) return false;
-      }
-      if (filters.search) {
-        const searchTerm = filters.search.toLowerCase();
-        if (
-          !product.title.toLowerCase().includes(searchTerm) &&
-          !product.description.toLowerCase().includes(searchTerm) &&
-          !product.category.toLowerCase().includes(searchTerm)
-        ) {
-          return false;
-        }
-      }
-      
-      return true; 
-    });
+    // Apply filters using the utility function
+    let filtered = products.filter(product => applyFilters(product, filters));
 
     switch (sortBy) {
       case ProductSortBy.PRICE_ASC:
