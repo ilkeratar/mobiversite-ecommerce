@@ -195,7 +195,7 @@ export default function OrderSuccessPage() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/profile"
+              href="/profile?tab=orders"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105 font-semibold shadow-md hover:shadow-lg"
             >
               <Package className="w-5 h-5" />
@@ -234,7 +234,7 @@ export default function OrderSuccessPage() {
               Call Us
             </a>
             <span className="text-gray-400">•</span>
-            <Link href="/profile" className="text-blue-600 hover:text-blue-700 font-medium">
+            <Link href="/profile?tab=orders" className="text-blue-600 hover:text-blue-700 font-medium">
               Order History
             </Link>
           </div>

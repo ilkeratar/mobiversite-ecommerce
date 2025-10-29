@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
+    "api:start": "cd api && npm start",
     "json-server": "json-server --watch db.json --port 3001"
   },
   "dependencies": {
