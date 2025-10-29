@@ -1,7 +1,8 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import apiClient from '@/lib/apiClient';
+
 import { User, Order } from '@/types';
+import apiClient from '@/lib/apiClient';
 import ProfileClient from './ProfileClient';
 
 const AUTH_COOKIE_NAME = 'auth_user';

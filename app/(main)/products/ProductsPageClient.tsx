@@ -1,11 +1,6 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Product, Category, ProductFilters, ProductSortBy } from '@/types';
-import ProductList from '@/components/products/ProductList';
-import ProductSidebarFilters from '@/components/products/ProductSidebarFilters';
-import { useCart } from '@/context/CartContext';
-import { useWishlist } from '@/context/WishlistContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Menu,
@@ -16,6 +11,12 @@ import {
 import { ChevronDownIcon, FunnelIcon, Squares2X2Icon } from '@heroicons/react/20/solid';
 import { ListBulletIcon } from '@heroicons/react/24/outline';
 import { toast } from 'react-hot-toast';
+
+import { Product, Category, ProductFilters, ProductSortBy } from '@/types';
+import ProductList from '@/components/products/ProductList';
+import ProductSidebarFilters from '@/components/products/ProductSidebarFilters';
+import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 import { applyFilters } from '@/lib/productUtils';
 
 interface ProductsPageClientProps {

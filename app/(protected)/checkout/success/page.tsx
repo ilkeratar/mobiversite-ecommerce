@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   CheckCircle,
   Package,
@@ -13,6 +13,7 @@ import {
   Home,
   AlertCircle
 } from 'lucide-react';
+
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import { verifyOrderAction } from '@/lib/actions';
 

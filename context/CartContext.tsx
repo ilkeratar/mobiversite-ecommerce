@@ -93,9 +93,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     selectedOptions?: CartItem['selectedOptions']
   ) => {
     setItems((prevItems) => {
-      // 1. Create a new CartItem from the incoming product (Utils)
       const newItem = CartUtils.createCartItem(product, quantity, selectedOptions);
-      // 2. Add the new item to the current list and merge duplicates (Utils)
       const mergedItems = CartUtils.mergeCartItems([...prevItems, newItem]);
       return mergedItems;
     });

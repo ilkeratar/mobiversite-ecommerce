@@ -1,7 +1,8 @@
 'use client';
 
-import { User, Order } from '@/types';
 import { useRouter } from 'next/navigation';
+
+import { User, Order } from '@/types';
 import AccountSettings from '@/components/profile/AccountSettings';
 import OrderHistory from '@/components/profile/OrderHistory';
 

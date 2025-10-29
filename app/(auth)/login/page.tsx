@@ -1,9 +1,10 @@
 'use client';
 
-import Link from "next/link";
-import { login, AuthState } from "@/lib/actions";
 import React from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+
+import { login, AuthState } from "@/lib/actions";
 
 export default function LoginPage() {
   const searchParams = useSearchParams();

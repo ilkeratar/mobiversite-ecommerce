@@ -1,6 +1,7 @@
+import { notFound } from 'next/navigation';
+
 import { getProductById } from '@/services/productService';
 import ProductDetailClient from './ProductDetailClient';
-import { notFound } from 'next/navigation';
 
 interface ProductPageProps {
   params: { id: string };

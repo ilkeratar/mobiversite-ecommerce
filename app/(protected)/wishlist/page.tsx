@@ -1,14 +1,15 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import { HeartIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { toast } from 'react-hot-toast';
+
+import { Product } from '@/types';
 import { useWishlist } from '@/context/WishlistContext';
 import { useCart } from '@/context/CartContext';
 import ProductCard from '@/components/products/ProductCard';
 import Breadcrumb, { BreadcrumbItem } from '@/components/ui/Breadcrumb';
-import { HeartIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
-import { Product } from '@/types';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-hot-toast';
 
 const breadcrumbItems: BreadcrumbItem[] = [
   { label: 'Wishlist' }

@@ -1,14 +1,15 @@
 'use client';
 
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useMemo } from 'react';
-import { Product } from '@/types';
-import { useCart } from '@/context/CartContext';
 import { StarIcon, HeartIcon as HeartOutline, ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolid } from '@heroicons/react/24/solid';
-import { useWishlist } from '@/context/WishlistContext';
 import { toast } from 'react-hot-toast';
+
+import { Product } from '@/types';
+import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 
 interface ProductDetailClientProps {
   product: Product;

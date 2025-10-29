@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+
 import { getProducts } from '@/services/productService';
 import HeroSlider from '@/components/home/HeroSlider';
 import CategoryCards from '@/components/home/CategoryCards';

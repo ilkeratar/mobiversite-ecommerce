@@ -1,15 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { useCart } from '@/context/CartContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Trash2, ShoppingBag, ArrowLeft, Plus, Minus, Tag, X } from 'lucide-react';
-import Breadcrumb from '@/components/ui/Breadcrumb';
-import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import ConfirmDialog from '@/components/ui/ConfirmDialog';
+import { Trash2, ShoppingBag, ArrowLeft, Plus, Minus, Tag, X } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+
+import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
+import Breadcrumb from '@/components/ui/Breadcrumb';
+import ConfirmDialog from '@/components/ui/ConfirmDialog';
 
 
 const SHIPPING_RATE = 15.00;

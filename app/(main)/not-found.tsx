@@ -1,8 +1,9 @@
 'use client';
 
-import Lottie from 'lottie-react';
-import animationData from '@/public/animations/404-error.json';
 import Link from 'next/link';
+import Lottie from 'lottie-react';
+
+import animationData from '@/public/animations/404-error.json';
 
 export default function NotFound() {
   return (

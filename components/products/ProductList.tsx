@@ -1,8 +1,9 @@
 'use client';
 
+import { Squares2X2Icon } from '@heroicons/react/24/outline';
+
 import { Product } from '@/types';
 import ProductCard from './ProductCard';
-import { Squares2X2Icon } from '@heroicons/react/24/outline';
 
 interface ProductListProps {
   products: Product[];

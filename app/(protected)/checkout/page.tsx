@@ -1,12 +1,9 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useCart } from '@/context/CartContext';
-import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import Breadcrumb from '@/components/ui/Breadcrumb';
+import { useRouter } from 'next/navigation';
 import { 
   ShoppingBag, 
   MapPin, 
@@ -16,8 +13,12 @@ import {
   ArrowLeft,
   Package
 } from 'lucide-react';
-import { createOrderAction } from '@/lib/actions';
+
 import { Address } from '@/types';
+import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
+import Breadcrumb from '@/components/ui/Breadcrumb';
+import { createOrderAction } from '@/lib/actions';
 
 const SHIPPING_RATE = 15.00;
 const TAX_RATE = 0.18;

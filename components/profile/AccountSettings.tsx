@@ -1,10 +1,11 @@
 'use client';
 
-import { User } from '@/types';
 import { useState, useTransition } from 'react';
-import { updateUserAddress, UpdateAddressState, updateUserInfo, UpdateProfileState } from '@/lib/actions';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
+
+import { User } from '@/types';
+import { updateUserAddress, UpdateAddressState, updateUserInfo, UpdateProfileState } from '@/lib/actions';
 
 interface AccountSettingsProps {
   user: User;
@@ -277,7 +278,6 @@ export default function AccountSettings({ user }: AccountSettingsProps) {
           </div>
         )}
 
-        {/* Success toast is handled via react-hot-toast; no inline success banner */}
 
         {!isEditingAddress ? (
           <div className="text-sm text-gray-900 max-w-2xl">

@@ -37,8 +37,6 @@ export function WishlistProvider({ children, initialItems }: WishlistProviderPro
     }
   }, [user]);
 
-  // Ensure wishlist items are populated on the client immediately after login
-  // even if the layout/providers are not remounted (client-side navigation).
   useEffect(() => {
     const syncWishlistFromUser = async () => {
       if (!user) {

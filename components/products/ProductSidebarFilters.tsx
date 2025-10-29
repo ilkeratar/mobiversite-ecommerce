@@ -10,6 +10,7 @@ import {
 } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid';
+
 import { Category, ProductFilters } from '@/types';
 
 interface ProductSidebarFiltersProps {

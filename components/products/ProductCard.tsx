@@ -1,12 +1,13 @@
 'use client';
 
-import { ProductCardProps } from '@/types';
-import { HeartIcon, ShoppingCartIcon, StarIcon } from '@heroicons/react/24/outline';
-import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import Link from 'next/link';
-import { useWishlist } from '@/context/WishlistContext';
+import { HeartIcon, ShoppingCartIcon, StarIcon } from '@heroicons/react/24/outline';
+import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import toast from 'react-hot-toast';
+
+import { ProductCardProps } from '@/types';
+import { useWishlist } from '@/context/WishlistContext';
 
 interface ExtendedProductCardProps extends ProductCardProps {
   viewMode?: 'grid' | 'list';
@@ -70,7 +71,7 @@ export default function ProductCard({
     onViewDetails?.(product);
   };
 
-  // Grid view - Modern Design
+  // Grid view
   if (viewMode === 'grid') {
     return (
       <div 
@@ -79,7 +80,7 @@ export default function ProductCard({
         onMouseLeave={() => setIsHovered(false)}
       >
         <Link href={`/products/${product.id}`}>
-          {/* Image Container with fixed aspect ratio */}
+          {/* Image Container */}
           <div className="relative w-full h-72 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
             <div className="absolute inset-0 flex items-center justify-center p-6">
               <img
@@ -89,7 +90,6 @@ export default function ProductCard({
               />
             </div>
             
-            {/* Gradient Overlay on Hover */}
             <div className={`absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
             
             {/* Badges */}
@@ -194,7 +194,7 @@ export default function ProductCard({
             }`}
           >
             {!product.details.inStock ? (
-              'Stokta Yok'
+              'Out of Stock'
             ) : isAddingToCart ? (
               <div className="flex items-center justify-center gap-2">
                 <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -215,7 +215,7 @@ export default function ProductCard({
     );
   }
 
-  // List view - Modern Design
+  // List view
   return (
     <div 
       className="group relative bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100"
@@ -240,7 +240,7 @@ export default function ProductCard({
           <div className="absolute top-3 left-3 flex flex-col gap-2">
             {!product.details.inStock && (
               <span className="bg-red-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
-                Stokta Yok
+                Out of Stock
               </span>
             )}
             {product.rating.rate >= 4.5 && (
@@ -289,12 +289,11 @@ export default function ProductCard({
             {/* Brand */}
             {product.details.brand && (
               <p className="text-sm text-gray-500 mb-2">
-                Marka: <span className="font-medium text-gray-700">{product.details.brand}</span>
+                Brand: <span className="font-medium text-gray-700">{product.details.brand}</span>
               </p>
             )}
           </div>
 
-          {/* Price and Actions */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-4 pt-4 border-t border-gray-100">
             <span className="text-3xl font-bold text-gray-900">
               ${product.price.toFixed(2)}

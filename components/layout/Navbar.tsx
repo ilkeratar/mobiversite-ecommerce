@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { User as AppUser, Product } from '@/types';
 import { 
   ShoppingCart, 
   Heart, 
@@ -16,6 +15,8 @@ import {
   LogOut,
   Loader2
 } from 'lucide-react';
+
+import { User as AppUser, Product } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
@@ -87,7 +88,6 @@ export default function Navbar() {
     }
   }, []);
 
-  // Debounced search
   useEffect(() => {
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
@@ -96,7 +96,7 @@ export default function Navbar() {
     if (searchQuery) {
       searchTimeoutRef.current = setTimeout(() => {
         performSearch(searchQuery);
-      }, 300); // 300ms debounce
+      }, 300);
     } else {
       setSearchResults([]);
       setIsSearchOpen(false);

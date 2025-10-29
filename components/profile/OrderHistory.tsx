@@ -1,8 +1,9 @@
 'use client';
 
-import { Order } from '@/types';
 import Link from 'next/link';
 import Image from 'next/image';
+
+import { Order } from '@/types';
 
 interface OrderHistoryProps {
   orders: Order[];
@@ -74,7 +75,6 @@ export default function OrderHistory({ orders }: OrderHistoryProps) {
           <div className="p-6">
             <div className="space-y-6">
               {order.items.map((item, index) => {
-                // Calculate delivery/completion date (6 days after order date)
                 const completionDate = new Date(order.createdAt);
                 completionDate.setDate(completionDate.getDate() + 6);
                 
