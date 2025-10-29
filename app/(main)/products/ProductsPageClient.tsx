@@ -16,6 +16,7 @@ import {
 } from '@headlessui/react';
 import { ChevronDownIcon, FunnelIcon, Squares2X2Icon } from '@heroicons/react/20/solid';
 import { ListBulletIcon } from '@heroicons/react/24/outline';
+import { toast } from 'react-hot-toast';
 
 interface ProductsPageClientProps {
   initialProducts: Product[];
@@ -190,6 +191,7 @@ export default function ProductsPageClient({
 
   const handleAddToCart = (product: Product) => {
     addToCart(product);
+    toast.success('Product added to cart');
   };
 
   const handleAddToWishlist = (product: Product) => {

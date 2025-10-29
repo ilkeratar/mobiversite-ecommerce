@@ -9,8 +9,8 @@ import { useRouter } from 'next/navigation';
 
 interface WishlistContextType {
   items: Product[];
-  addToWishlist: (product: Product) => void;
-  removeFromWishlist: (productId: number) => void;
+  addToWishlist: (product: Product) => Promise<void>;
+  removeFromWishlist: (productId: number) => Promise<void>;
   isInWishlist: (productId: number) => boolean;
   clearWishlist: () => void;
 }
@@ -65,22 +65,12 @@ export function WishlistProvider({ children, initialItems }: WishlistProviderPro
     syncWishlistFromUser();
   }, [user]);
 
-  const addToWishlist = async (product: Product) => {
+  const addToWishlist = async (product: Product): Promise<void> => {
     if (!user) {
       router.push('/login');
       return;
     }
-    // Update client-side state first
-    setItems(prev => {
-      const currentItems = prev || [];
-
-      if (currentItems.find(item => item.id === product.id)) 
-        return currentItems;
-
-      return [...currentItems, product];
-    });
-
-    // Update wishlist on server
+    // Update wishlist on server first
     const newWishlistIds = [...(user.wishlist || []), product.id];
     try {
       const updatedUser = await apiClient.put(`/users/${user.id}`, {
@@ -89,26 +79,24 @@ export function WishlistProvider({ children, initialItems }: WishlistProviderPro
       });
       // Update user state in context
       setUser(updatedUser as User);
+
+      // Update client-side items after server success
+      setItems(prev => {
+        const currentItems = prev || [];
+        if (currentItems.find(item => item.id === product.id)) {
+          return currentItems;
+        }
+        return [...currentItems, product];
+      });
     } catch (error) {
       console.error('Failed to update wishlist:', error);
-      // Rollback to previous state
-      setItems((prev) => (prev || []).filter(item => item.id !== product.id));
     }
   };
 
-  const removeFromWishlist = async (productId: number) => {
+  const removeFromWishlist = async (productId: number): Promise<void> => {
     if (!user) return;
 
-    let removedItem: Product | undefined;
-    setItems((prev) => {
-      const currentItems = prev || [];
-      removedItem = currentItems.find(item => item.id === productId);
-      return currentItems.filter(item => item.id !== productId);
-    });
-
-    if (!removedItem) return;
-
-    // Update wishlist on server
+    // Update wishlist on server first
     const newWishlistIds = (user.wishlist || []).filter(id => id !== productId);
     try {
       const updatedUser = await apiClient.put(`/users/${user.id}`, {
@@ -116,11 +104,14 @@ export function WishlistProvider({ children, initialItems }: WishlistProviderPro
         wishlist: newWishlistIds
       });
       setUser(updatedUser as User);
+
+      // Update client-side items after server success
+      setItems((prev) => {
+        const currentItems = prev || [];
+        return currentItems.filter(item => item.id !== productId);
+      });
     } catch (error) {
       console.error('Failed to update wishlist:', error);
-      if (removedItem) {
-        setItems((prev) => [...(prev || []), removedItem!]);
-      }
     }
   };
 

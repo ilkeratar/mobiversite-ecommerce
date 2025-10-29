@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";
 import { cookies } from 'next/headers';
+import { Toaster } from 'react-hot-toast';
+
 import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
@@ -104,6 +106,12 @@ export default async function RootLayout({
         className={`${inter.className} antialiased`}
         suppressHydrationWarning
       >
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
         <AuthProvider initialUser={user}>
           <CartProvider>
             <WishlistProvider initialItems={initialWishlistItems}>

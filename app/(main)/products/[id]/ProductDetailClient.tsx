@@ -8,6 +8,7 @@ import { useCart } from '@/context/CartContext';
 import { StarIcon, HeartIcon as HeartOutline, ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolid } from '@heroicons/react/24/solid';
 import { useWishlist } from '@/context/WishlistContext';
+import { toast } from 'react-hot-toast';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -26,22 +27,43 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
   const [selectedColor, setSelectedColor] = useState<string | undefined>(colors[0]);
   const [selectedSize, setSelectedSize] = useState<string | undefined>(sizes[0]);
-  const [isWishlistAnimating, setIsWishlistAnimating] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   const handleAddToCart = () => {
-    addToCart(product);
+    if (isAddingToCart) return;
+    setIsAddingToCart(true);
+    setTimeout(() => {
+      addToCart(product);
+      setIsAddingToCart(false);
+      toast.success('Product added to cart');
+    }, 1000);
   };
 
   const wished = isInWishlist(product.id);
-  const toggleWishlist = () => {
+  const toggleWishlist = async (event?: React.MouseEvent) => {
+  event?.preventDefault(); 
+  event?.stopPropagation();
+
+  if (isWishlistLoading) return;
+  
+  setIsWishlistLoading(true); 
+
+  try {
     if (wished) {
-      removeFromWishlist(product.id);
+      await removeFromWishlist(product.id); 
+      toast.success('Product removed from wishlist');
     } else {
-      addToWishlist(product);
-      setIsWishlistAnimating(true);
-      setTimeout(() => setIsWishlistAnimating(false), 200);
+      await addToWishlist(product); 
+      toast.success('Product added to wishlist');
     }
-  };
+  } catch (error) {
+    console.error("Wishlist toggle failed:", error);
+    toast.error('Could not update wishlist. Please try again.');
+  } finally {
+    setIsWishlistLoading(false); 
+  }
+};
 
   return (
     <div className="bg-white">
@@ -158,46 +180,58 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             <div className="mt-8 flex gap-3">
               <button
                 onClick={handleAddToCart}
-                disabled={!product.details.inStock}
+                disabled={!product.details.inStock || isAddingToCart}
                 className={classNames(
                   'flex-1 rounded-md px-6 py-3 text-base font-semibold shadow-sm transition-colors',
-                  product.details.inStock
+                  product.details.inStock && !isAddingToCart
                     ? 'bg-blue-600 text-white hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 cursor-pointer'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-gray-300 text-gray-500'
                 )}
               >
-                {product.details.inStock ? (
+                {!product.details.inStock ? (
+                  'Out of Stock'
+                ) : isAddingToCart ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Adding...
+                  </span>
+                ) : (
                   <span className="flex items-center justify-center gap-2">
                     <ShoppingCartIcon className="w-5 h-5 stroke-2" />
                     Add to Cart
                   </span>
-                ) : (
-                  'Out of Stock'
                 )}
               </button>
 
               <button
                 type="button"
                 onClick={toggleWishlist}
+                disabled={isWishlistLoading}
                 aria-pressed={wished}
                 className={classNames(
-                  'inline-flex items-center justify-center rounded-md border transition-colors w-12 h-12 cursor-pointer',
-                  wished ? 'border-red-600 bg-red-50 hover:bg-red-100' : 'border-gray-300 bg-white hover:bg-gray-50'
+                  'inline-flex items-center justify-center rounded-md border transition-colors w-12 h-12',
+                  isWishlistLoading ? 'cursor-not-allowed' : 'cursor-pointer',
+                  wished
+                    ? (isWishlistLoading ? 'border-red-600 bg-red-50' : 'border-red-600 bg-red-50 hover:bg-red-100')
+                    : (isWishlistLoading ? 'border-gray-300 bg-white' : 'border-gray-300 bg-white hover:bg-gray-50')
                 )}
                 title={wished ? 'Remove from Wishlist' : 'Add to Wishlist'}
               >
-                <span
-                  className={classNames(
-                    'inline-flex items-center justify-center transition-transform',
-                    isWishlistAnimating ? 'scale-125' : 'scale-100'
-                  )}
-                >
-                  {wished ? (
+                {isWishlistLoading ? (
+                  <svg className="animate-spin h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                ) : (
+                  wished ? (
                     <HeartSolid className="w-6 h-6 text-red-600" />
                   ) : (
                     <HeartOutline className="w-6 h-6 text-gray-500" />
-                  )}
-                </span>
+                  )
+                )}
               </button>
             </div>
 

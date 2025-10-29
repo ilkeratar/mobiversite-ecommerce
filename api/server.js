@@ -119,7 +119,8 @@ app.get('/users/:id', (req, res) => {
 
 // Create user (register)
 app.post('/users', (req, res) => {
-  const db = readDB();
+  setTimeout(() => {
+    const db = readDB();
   
   // Check if email already exists
   const existingUser = db.users.find(u => u.email === req.body.email);
@@ -138,25 +139,30 @@ app.post('/users', (req, res) => {
   writeDB(db);
   
   res.status(201).json(newUser);
+
+  }, 500);
 });
 
 // Update user (full update - for wishlist)
 app.put('/users/:id', (req, res) => {
-  const db = readDB();
-  const index = db.users.findIndex(u => u.id === parseInt(req.params.id));
-  
-  if (index === -1) {
-    return res.status(404).json({ error: 'User not found' });
-  }
-  
-  db.users[index] = { ...db.users[index], ...req.body, id: parseInt(req.params.id) };
-  writeDB(db);
-  
-  res.json(db.users[index]);
+  setTimeout(() => {
+    const db = readDB();
+    const index = db.users.findIndex(u => u.id === parseInt(req.params.id));
+    
+    if (index === -1) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    db.users[index] = { ...db.users[index], ...req.body, id: parseInt(req.params.id) };
+    writeDB(db);
+    
+    res.json(db.users[index]);
+  }, 500);
 });
 
 // Patch user (partial update - for address)
 app.patch('/users/:id', (req, res) => {
+  setTimeout(() => {
   const db = readDB();
   const index = db.users.findIndex(u => u.id === parseInt(req.params.id));
   
@@ -168,6 +174,7 @@ app.patch('/users/:id', (req, res) => {
   writeDB(db);
   
   res.json(db.users[index]);
+  }, 500);
 });
 
 // ==================== CATEGORIES ====================
@@ -224,6 +231,7 @@ app.get('/orders/:id', (req, res) => {
 
 // Create order
 app.post('/orders', (req, res) => {
+  setTimeout(() => {
   const db = readDB();
   const newOrder = {
     id: db.orders.length > 0 ? Math.max(...db.orders.map(o => o.id)) + 1 : 1,
@@ -235,6 +243,7 @@ app.post('/orders', (req, res) => {
   writeDB(db);
   
   res.status(201).json(newOrder);
+  }, 500);
 });
 
 // 404 handler

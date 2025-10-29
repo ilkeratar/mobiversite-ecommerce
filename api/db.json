@@ -983,7 +983,11 @@
         "zipcode": "",
         "country": ""
       },
-      "wishlist": [],
+      "wishlist": [
+        1,
+        2,
+        3
+      ],
       "id": 4
     },
     {

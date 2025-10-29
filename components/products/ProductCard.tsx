@@ -1,11 +1,12 @@
 'use client';
 
-import { Product, ProductCardProps } from '@/types';
+import { ProductCardProps } from '@/types';
 import { HeartIcon, ShoppingCartIcon, StarIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useWishlist } from '@/context/WishlistContext';
+import toast from 'react-hot-toast';
 
 interface ExtendedProductCardProps extends ProductCardProps {
   viewMode?: 'grid' | 'list';
@@ -19,26 +20,46 @@ export default function ProductCard({
   viewMode = 'grid'
 }: ExtendedProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [isWishlistAnimating, setIsWishlistAnimating] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
-  const isWishlisted = isInWishlist(product.id);
 
-  const handleWishlistToggle = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (isWishlisted) {
-      removeFromWishlist(product.id);
-    } else {
-      addToWishlist(product);
-      setIsWishlistAnimating(true);
-      setTimeout(() => setIsWishlistAnimating(false), 200);
+  const wished = isInWishlist(product.id);
+  const toggleWishlist = async (event?: React.MouseEvent) => {
+    event?.preventDefault(); 
+    event?.stopPropagation();
+  
+    if (isWishlistLoading) return;
+    
+    setIsWishlistLoading(true); 
+  
+    try {
+      if (wished) {
+        await removeFromWishlist(product.id); 
+        toast.success('Product removed from wishlist');
+      } else {
+        await addToWishlist(product); 
+        toast.success('Product added to wishlist');
+      }
+    } catch (error) {
+      console.error("Wishlist toggle failed:", error);
+      toast.error('Could not update wishlist. Please try again.');
+    } finally {
+      setIsWishlistLoading(false); 
     }
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onAddToCart?.(product);
+    if (isAddingToCart) return;
+    
+    setIsAddingToCart(true);
+    
+    setTimeout(() => {
+      onAddToCart?.(product);
+      setIsAddingToCart(false);
+    }, 1000);
   };
 
   const handleViewDetails = () => {
@@ -83,18 +104,29 @@ export default function ProductCard({
             
             {/* Wishlist Button */}
             <button
-              onClick={handleWishlistToggle}
-              className={`absolute top-3 right-3 w-10 h-10 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white hover:scale-110 transition-all duration-300 ${
+              onClick={toggleWishlist}
+              disabled={isWishlistLoading}
+              aria-pressed={wished}
+              className={`absolute top-3 right-3 w-10 h-10 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-full shadow-lg transition-all duration-300 ${
+                isWishlistLoading 
+                  ? 'cursor-not-allowed opacity-100' 
+                  : 'hover:bg-white hover:scale-110'
+              } ${
                 isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
               }`}
             >
-              <span className={`flex items-center justify-center transition-transform duration-300 ${isWishlistAnimating ? 'scale-125' : 'scale-100'}`}>
-                {isWishlisted ? (
-                  <HeartSolidIcon className="w-5 h-5 text-red-500" />
+              {isWishlistLoading ? (
+                <svg className="animate-spin h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : (
+                wished ? (
+                  <HeartSolidIcon className="w-6 h-6 text-red-600" />
                 ) : (
-                  <HeartIcon className="w-5 h-5 text-gray-700" />
-                )}
-              </span>
+                  <HeartIcon className="w-6 h-6 text-gray-500" />
+                )
+              )}
             </button>
           </div>
           
@@ -150,20 +182,28 @@ export default function ProductCard({
         <div className="px-5 pb-5">
           <button
             onClick={handleAddToCart}
-            disabled={!product.details.inStock}
+            disabled={!product.details.inStock || isAddingToCart}
             className={`w-full rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-300 transform ${
-              product.details.inStock
+              product.details.inStock && !isAddingToCart
                 ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0'
                 : 'bg-gray-100 text-gray-400 cursor-not-allowed'
             }`}
           >
-            {product.details.inStock ? (
+            {!product.details.inStock ? (
+              'Stokta Yok'
+            ) : isAddingToCart ? (
+              <div className="flex items-center justify-center gap-2">
+                <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Adding...
+              </div>
+            ) : (
               <div className="flex items-center justify-center gap-2">
                 <ShoppingCartIcon className="w-5 h-5" />
                 Add to Cart
               </div>
-            ) : (
-              'Stokta Yok'
             )}
           </button>
         </div>
@@ -258,34 +298,52 @@ export default function ProductCard({
 
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <button
-                onClick={handleWishlistToggle}
-                className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-xl hover:bg-gray-100 hover:scale-110 transition-all duration-300 shadow-sm"
+                onClick={toggleWishlist}
+                disabled={isWishlistLoading}
+                className={`w-12 h-12 flex items-center justify-center bg-gray-50 rounded-xl transition-all duration-300 shadow-sm ${
+                  isWishlistLoading 
+                    ? 'cursor-not-allowed' 
+                    : 'hover:bg-gray-100 hover:scale-110'
+                }`}
               >
-                <span className={`flex items-center justify-center transition-transform duration-300 ${isWishlistAnimating ? 'scale-125' : 'scale-100'}`}>
-                  {isWishlisted ? (
-                    <HeartSolidIcon className="w-5 h-5 text-red-500" />
+                {isWishlistLoading ? (
+                  <svg className="animate-spin h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                ) : (
+                  wished ? (
+                    <HeartSolidIcon className="w-6 h-6 text-red-600" />
                   ) : (
-                    <HeartIcon className="w-5 h-5 text-gray-600" />
-                  )}
-                </span>
+                    <HeartIcon className="w-6 h-6 text-gray-500" />
+                  )
+                )}
               </button>
 
               <button
                 onClick={handleAddToCart}
-                disabled={!product.details.inStock}
+                disabled={!product.details.inStock || isAddingToCart}
                 className={`flex-1 sm:flex-initial py-3 px-8 rounded-xl text-sm font-semibold transition-all duration-300 shadow-sm ${
-                  product.details.inStock
+                  product.details.inStock && !isAddingToCart
                     ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0'
                     : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 }`}
               >
-                {product.details.inStock ? (
+                {!product.details.inStock ? (
+                  'Stokta Yok'
+                ) : isAddingToCart ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Adding...
+                  </div>
+                ) : (
                   <div className="flex items-center justify-center gap-2">
                     <ShoppingCartIcon className="w-5 h-5" />
                     Add to Cart
                   </div>
-                ) : (
-                  'Stokta Yok'
                 )}
               </button>
             </div>
