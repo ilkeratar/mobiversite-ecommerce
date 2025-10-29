@@ -166,6 +166,11 @@ export interface UpdateAddressState {
   success?: boolean;
 }
 
+export interface UpdateProfileState {
+  error?: string;
+  success?: boolean;
+}
+
 export async function updateUserAddress(
   prevState: UpdateAddressState | undefined,
   formData: FormData
@@ -210,6 +215,76 @@ export async function updateUserAddress(
   } catch (error) {
     console.error('Failed to update address:', error);
     return { error: 'Failed to update address. Please try again later.' };
+  }
+}
+
+export async function updateUserInfo(
+  prevState: UpdateProfileState | undefined,
+  formData: FormData
+): Promise<UpdateProfileState> {
+  const cookieStore = await cookies();
+  const authCookie = cookieStore.get(AUTH_COOKIE_NAME)?.value;
+
+  if (!authCookie) {
+    return { error: 'Unauthorized' };
+  }
+
+  let userId: number | undefined = undefined;
+  try {
+    const userCookie = JSON.parse(authCookie);
+    userId = userCookie.id;
+  } catch (error) {
+    console.error('Failed to parse auth cookie:', error);
+    return { error: 'Unexpected error occurred. Please try again later.' };
+  }
+
+  const firstname = String(formData.get('firstname') || '').trim();
+  const lastname = String(formData.get('lastname') || '').trim();
+  const email = String(formData.get('email') || '').trim();
+  const phone = String(formData.get('phone') || '').trim();
+
+  if (!firstname || !lastname || !email) {
+    return { error: 'First name, last name and email are required' };
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return { error: 'Invalid email format' };
+  }
+
+  if (phone) {
+    const allowedPhonePattern = /^[0-9+()\-\s]{7,20}$/;
+    const digitCount = phone.replace(/\D/g, '').length;
+    if (!allowedPhonePattern.test(phone) || digitCount < 7 || digitCount > 15) {
+      return { error: 'Invalid phone number format' };
+    }
+  }
+
+  try {
+    const usersWithEmail: User[] = await apiClient.get('/users', { email });
+    const takenByOther = Array.isArray(usersWithEmail)
+      ? usersWithEmail.find((u) => u.id !== userId)
+      : undefined;
+    if (takenByOther) {
+      return { error: 'Email is already in use' };
+    }
+  } catch (err) {
+    console.error('Failed to check email uniqueness:', err);
+    return { error: 'Unexpected error occurred. Please try again later.' };
+  }
+
+  const payload = {
+    name: { firstname, lastname },
+    email,
+    phone,
+  };
+
+  try {
+    await apiClient.patch(`/users/${userId}`, payload);
+    return { success: true };
+  } catch (error) {
+    console.error('Failed to update user info:', error);
+    return { error: 'Failed to update information. Please try again later.' };
   }
 }
 

@@ -973,19 +973,22 @@
       "email": "ilker@123.co",
       "password": "123123",
       "name": {
-        "firstname": "Ilker",
+        "firstname": "ilker",
         "lastname": "Atar"
       },
-      "phone": "",
+      "phone": "214212144",
       "address": {
-        "addressLine": "",
-        "city": "",
-        "zipcode": "",
-        "country": ""
+        "addressLine": "Konya Selçuklu Beyhekim Mahallesi Arafat Sokak No: 2",
+        "city": "İç Anadolu",
+        "state": "Konya",
+        "zipcode": "42130",
+        "country": "Türkiye"
       },
       "wishlist": [
         2,
-        3
+        3,
+        6,
+        5
       ],
       "id": 4
     },
