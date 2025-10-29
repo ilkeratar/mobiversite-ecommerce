@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 
 interface HeroSlide {
   id: number;
@@ -14,7 +14,6 @@ interface HeroSlide {
   category: string;
   ctaText: string;
   ctaLink: string;
-  gradient: string;
 }
 
 const heroSlides: HeroSlide[] = [
@@ -23,22 +22,20 @@ const heroSlides: HeroSlide[] = [
     title: 'Fashion World',
     subtitle: 'New Season',
     description: 'Discover the trendiest pieces and reflect your style',
-    image: '/images/hero/fashion-hero.jpg',
+    image: '/images/hero/clothes-hero.jpg',
     category: 'women\'s clothing',
     ctaText: 'Start Shopping',
-    ctaLink: '/products?category=women\'s clothing',
-    gradient: 'from-pink-600/70 to-purple-600/70'
+    ctaLink: '/products?category=women\'s clothing'
   },
   {
     id: 2,
     title: 'Electronics',
     subtitle: 'Technology',
-    description: 'Make your life easier with the latest technology products',
+    description: 'Make your life easier with the latest technology',
     image: '/images/hero/electronics-hero.jpg',
     category: 'electronics',
     ctaText: 'Explore',
-    ctaLink: '/products?category=electronics',
-    gradient: 'from-blue-600/70 to-cyan-600/70'
+    ctaLink: '/products?category=electronics'
   },
   {
     id: 3,
@@ -48,8 +45,7 @@ const heroSlides: HeroSlide[] = [
     image: '/images/hero/jewelry-hero.jpg',
     category: 'jewelery',
     ctaText: 'Browse',
-    ctaLink: '/products?category=jewelery',
-    gradient: 'from-amber-600/70 to-yellow-600/70'
+    ctaLink: '/products?category=jewelery'
   }
 ];
 
@@ -77,14 +73,14 @@ export default function HeroSlider() {
   };
 
   return (
-    <div className="relative h-[70vh] md:h-[80vh] overflow-hidden">
+    <div className="relative h-[55vh] md:h-[65vh] overflow-hidden bg-gray-50">
       {/* Slides Container */}
       <div className="relative h-full">
         {heroSlides.map((slide, index) => (
           <div
             key={slide.id}
             className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
+              index === currentSlide ? 'opacity-100 ' : 'opacity-0 z-0 pointer-events-none'
             }`}
           >
             {/* Background Image */}
@@ -93,33 +89,36 @@ export default function HeroSlider() {
                 src={slide.image}
                 alt={slide.title}
                 fill
-                className="object-cover"
+                className="object-cover grayscale-[20%]"
                 priority={index === 0}
               />
               
-              {/* Gradient Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-r ${slide.gradient}`} />
+              {/* Minimal Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
               
               {/* Content */}
               <div className="absolute inset-0 flex items-center">
-                <div className="container mx-auto px-6 md:px-8">
-                  <div className="max-w-2xl">
-                    <div className="space-y-4">
-                      <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+                <div className="container mx-auto px-6 md:px-12 lg:px-16">
+                  <div className="max-w-xl lg:max-w-2xl">
+                    <div className="space-y-5 animate-in fade-in slide-in-from-left duration-700">
+                      {/* Title */}
+                      <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight">
                         {slide.title}
                       </h1>
-                      <h2 className="text-2xl md:text-3xl font-semibold text-white/90">
-                        {slide.subtitle}
-                      </h2>
-                      <p className="text-lg md:text-xl text-white/80 max-w-lg">
+                      
+                      {/* Description */}
+                      <p className="text-base md:text-lg text-white/90 max-w-md font-light leading-relaxed">
                         {slide.description}
                       </p>
-                      <div className="pt-4">
+                      
+                      {/* CTA Button */}
+                      <div className="pt-2">
                         <Link
                           href={slide.ctaLink}
-                          className="inline-flex items-center px-8 py-4 bg-white text-gray-900 font-semibold rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                          className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-medium hover:bg-gray-100 transition-colors duration-200 group"
                         >
-                          {slide.ctaText}
+                          <span>{slide.ctaText}</span>
+                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
                         </Link>
                       </div>
                     </div>
@@ -134,30 +133,46 @@ export default function HeroSlider() {
       {/* Navigation Arrows */}
       <button
         onClick={goToPrevious}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
+        className="absolute left-2 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 
+                   bg-white/10 backdrop-blur-md border border-white/20 text-white 
+                   p-2 md:p-3 lg:p-3.5 rounded-full
+                   hover:bg-white/30 hover:border-white/40 hover:scale-110
+                   active:scale-95
+                   transition-all duration-300 ease-out
+                   shadow-lg hover:shadow-xl
+                   group"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="w-6 h-6" />
+        <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 
+                                 group-hover:stroke-[2.5] transition-all duration-200" />
       </button>
       
       <button
         onClick={goToNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300"
+        className="absolute right-2 md:right-6 lg:right-8 top-1/2 -translate-y-1/2 
+                   bg-white/10 backdrop-blur-md border border-white/20 text-white 
+                   p-2 md:p-3 lg:p-3.5 rounded-full
+                   hover:bg-white/30 hover:border-white/40 hover:scale-110
+                   active:scale-95
+                   transition-all duration-300 ease-out
+                   shadow-lg hover:shadow-xl
+                   group"
         aria-label="Next slide"
       >
-        <ChevronRight className="w-6 h-6" />
+        <ChevronRight className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 
+                                  group-hover:stroke-[2.5] transition-all duration-200" />
       </button>
 
-      {/* Dots Indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
+      {/* Minimal Dots Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
         {heroSlides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`h-1 transition-all duration-300 ${
               index === currentSlide
-                ? 'bg-white scale-125'
-                : 'bg-white/50 hover:bg-white/70'
+                ? 'w-8 bg-white'
+                : 'w-8 bg-white/40 hover:bg-white/60'
             }`}
             aria-label={`Slide ${index + 1}`}
           />

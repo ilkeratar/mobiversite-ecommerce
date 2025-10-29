@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 interface CategoryCard {
   id: number;
@@ -11,8 +11,6 @@ interface CategoryCard {
   image: string;
   productCount: number;
   description: string;
-  gradient: string;
-  hoverGradient: string;
 }
 
 const categories: CategoryCard[] = [
@@ -22,9 +20,7 @@ const categories: CategoryCard[] = [
     slug: 'electronics',
     image: '/images/categories/electronics-category.jpg',
     productCount: 150,
-    description: 'Latest technology products',
-    gradient: 'from-blue-500 to-cyan-500',
-    hoverGradient: 'from-blue-600 to-cyan-600'
+    description: 'Latest technology products'
   },
   {
     id: 2,
@@ -32,9 +28,7 @@ const categories: CategoryCard[] = [
     slug: 'men\'s clothing',
     image: '/images/categories/mens-clothing-category.jpg',
     productCount: 200,
-    description: "Modern men's fashion",
-    gradient: 'from-gray-700 to-gray-900',
-    hoverGradient: 'from-gray-800 to-black'
+    description: "Modern men's fashion"
   },
   {
     id: 3,
@@ -42,9 +36,7 @@ const categories: CategoryCard[] = [
     slug: 'women\'s clothing',
     image: '/images/categories/womens-clothing-category.jpg',
     productCount: 180,
-    description: "Elegant women's collection",
-    gradient: 'from-pink-500 to-rose-500',
-    hoverGradient: 'from-pink-600 to-rose-600'
+    description: "Elegant women's collection"
   },
   {
     id: 4,
@@ -52,76 +44,82 @@ const categories: CategoryCard[] = [
     slug: 'jewelery',
     image: '/images/categories/jewelry-category.jpg',
     productCount: 120,
-    description: 'Elegant jewelry collection',
-    gradient: 'from-amber-500 to-yellow-500',
-    hoverGradient: 'from-amber-600 to-yellow-600'
+    description: 'Elegant jewelry collection'
   }
 ];
 
 export default function CategoryCards() {
   return (
-    <section className="py-16 px-4 md:px-8">
-      <div className="container mx-auto">
+    <section className="py-20 px-4 md:px-8 bg-white">
+      <div className="container mx-auto max-w-7xl">
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Featured Categories
+        <div className="mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3 tracking-tight">
+            Shop by Category
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover our most popular categories and find products that suit your needs
+          <p className="text-lg text-gray-600">
+            Explore our curated collections
           </p>
         </div>
 
         {/* Category Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {categories.map((category) => (
             <Link
               key={category.id}
               href={`/products?category=${category.slug}`}
-              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+              className="group relative overflow-hidden bg-gray-100 aspect-[3/4] hover:shadow-lg transition-all duration-300"
             >
               {/* Image Container */}
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-full overflow-hidden">
                 <Image
                   src={category.image}
                   alt={category.name}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105 grayscale-[15%] group-hover:grayscale-0"
+                  quality={95}
                 />
                 
-                {/* Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-t ${category.gradient} opacity-80 group-hover:opacity-90 transition-opacity duration-300`} />
+                {/* Subtle Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 
                 {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-end p-6">
+                <div className="absolute inset-0 flex flex-col justify-between p-6">
+                  {/* Arrow Icon */}
+                  <div className="flex justify-end">
+                    <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <ArrowUpRight className="w-5 h-5 text-white" />
+                    </div>
+                  </div>
+                  
+                  {/* Text Content */}
                   <div className="text-white">
-                    <h3 className="text-2xl font-bold mb-2 group-hover:translate-y-[-4px] transition-transform duration-300">
+                    <h3 className="text-2xl font-bold mb-2 tracking-tight">
                       {category.name}
                     </h3>
-                    <p className="text-white/90 mb-3 group-hover:translate-y-[-4px] transition-transform duration-300 delay-75">
+                    <p className="text-sm text-white/95 font-light">
                       {category.description}
                     </p>
-                    <div className="flex items-center justify-end">
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 delay-100" />
+                    <div className="mt-3 pt-3 border-t border-white/20">
+                      <span className="text-xs text-white/90 uppercase tracking-wider font-medium">
+                        {category.productCount}+ Products
+                      </span>
                     </div>
                   </div>
                 </div>
-
-                {/* Hover Effect Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-t ${category.hoverGradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300`} />
               </div>
             </Link>
           ))}
         </div>
 
-        {/* View All Categories Button */}
-        <div className="text-center mt-12">
+        {/* View All Button */}
+        <div className="mt-12 flex justify-center">
           <Link
             href="/products"
-            className="inline-flex items-center px-7 py-3 bg-white text-gray-900 rounded-xl border border-gray-200 shadow-sm hover:bg-gray-50 hover:shadow-md transition-all duration-300"
+            className="inline-flex items-center gap-2 px-8 py-4 border-2 border-gray-900 text-gray-900 font-semibold hover:bg-gray-900 hover:text-white transition-all duration-300 group text-center"
           >
-            View All Categories
-            <ArrowRight className="ml-2 w-5 h-5" />
+            <span>View All Products</span>
+            <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
           </Link>
         </div>
       </div>

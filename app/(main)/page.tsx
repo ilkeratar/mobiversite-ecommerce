@@ -4,7 +4,6 @@ import HeroSlider from '@/components/home/HeroSlider';
 import CategoryCards from '@/components/home/CategoryCards';
 import FeaturesSection from '@/components/home/FeaturesSection';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
-import NewsletterSignup from '@/components/home/NewsletterSignup';
 import Loading from './loading';
 
 
@@ -28,9 +27,6 @@ export default function HomePage() {
 
       {/* Features Section */}
       <FeaturesSection />
-
-      {/* Newsletter Signup */}
-      <NewsletterSignup />
     </div>
   );
 }
