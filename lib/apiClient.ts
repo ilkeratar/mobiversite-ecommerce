@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
@@ -12,6 +12,14 @@ const apiClient = {
       const response = await axiosInstance.get(url, { params });
       return response.data;
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        console.error(`GET ${url} failed:`, axiosError.response?.status, axiosError.message);
+        // Throw an error with status code for proper handling
+        const customError = new Error(axiosError.message || 'API request failed.') as Error & { status?: number };
+        customError.status = axiosError.response?.status;
+        throw customError;
+      }
       console.error(`GET ${url} failed:`, error);
       throw new Error('API request failed.');
     }

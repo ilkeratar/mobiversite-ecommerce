@@ -1,5 +1,6 @@
 import { getProductById } from '@/services/productService';
 import ProductDetailClient from './ProductDetailClient';
+import { notFound } from 'next/navigation';
 
 interface ProductPageProps {
   params: { id: string };
@@ -7,8 +8,15 @@ interface ProductPageProps {
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { id } = await params;
-  const product = await getProductById(Number(id));
   
-  return <ProductDetailClient product={product} />;
+  try {
+    const product = await getProductById(Number(id));
+    return <ProductDetailClient product={product} />;
+  } catch (error) {
+    if (error instanceof Error && 'status' in error && (error as Error & { status?: number }).status === 404) {
+      notFound();
+    }
+    throw error;
+  }
 }
 
