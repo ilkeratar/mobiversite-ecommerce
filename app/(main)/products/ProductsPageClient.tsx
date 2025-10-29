@@ -7,7 +7,7 @@ import ProductSidebarFilters from '@/components/products/ProductSidebarFilters';
 import { getProducts } from '@/services/productService';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Menu,
   MenuButton,
@@ -39,10 +39,15 @@ export default function ProductsPageClient({
   initialProducts, 
   categories 
 }: ProductsPageClientProps) {
+  const searchParams = useSearchParams();
+  const initialSearchQuery = searchParams.get('search') || '';
+  
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [filters, setFilters] = useState<ProductFilters>({});
+  const [filters, setFilters] = useState<ProductFilters>({
+    search: initialSearchQuery
+  });
   const [sortBy, setSortBy] = useState<ProductSortBy>(ProductSortBy.NEWEST);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');

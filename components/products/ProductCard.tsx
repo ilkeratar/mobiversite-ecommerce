@@ -75,8 +75,8 @@ export default function ProductCard({
                 </span>
               )}
               {product.rating.rate >= 4.5 && (
-                <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
-                  ⭐ Popüler
+                <span className="bg-gradient-to-r from-yellow-300 to-yellow-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                  ⭐ Populer
                 </span>
               )}
             </div>
@@ -160,7 +160,7 @@ export default function ProductCard({
             {product.details.inStock ? (
               <div className="flex items-center justify-center gap-2">
                 <ShoppingCartIcon className="w-5 h-5" />
-                Sepete Ekle
+                Add to Cart
               </div>
             ) : (
               'Stokta Yok'
@@ -201,7 +201,7 @@ export default function ProductCard({
             )}
             {product.rating.rate >= 4.5 && (
               <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
-                ⭐ Popüler
+                ⭐ Populer
               </span>
             )}
           </div>
@@ -282,7 +282,7 @@ export default function ProductCard({
                 {product.details.inStock ? (
                   <div className="flex items-center justify-center gap-2">
                     <ShoppingCartIcon className="w-5 h-5" />
-                    Sepete Ekle
+                    Add to Cart
                   </div>
                 ) : (
                   'Stokta Yok'
