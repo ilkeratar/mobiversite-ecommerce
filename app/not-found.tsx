@@ -3,10 +3,14 @@
 import Lottie from 'lottie-react';
 import animationData from '../public/animations/404-error.json';
 import Link from 'next/link';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
+    <div className="flex min-h-screen flex-col">
+      <Navbar />
+      <div className="flex-grow min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
       <div className="max-w-md w-full text-center">
 
         <div className="mb-8">
@@ -42,6 +46,8 @@ export default function NotFound() {
           </Link>
         </div>
       </div>
+      </div>
+      <Footer />
     </div>
   );
 }
