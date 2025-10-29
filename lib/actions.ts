@@ -39,19 +39,23 @@ export async function login(
     return { error: 'Invalid credentials' };
   }
 
-  const maxAge = rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 24 * 7; // 30d or 7d
-
   const cookieStore = await cookies();
+  
+  const cookieOptions: any = {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+  };
+
+  if (rememberMe) {
+    cookieOptions.maxAge = 60 * 60 * 24 * 30; // 30 days
+  }
+
   cookieStore.set(
     AUTH_COOKIE_NAME,
     JSON.stringify({ id: user!.id }),
-    {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      maxAge,
-    }
+    cookieOptions
   );
 
   redirect(redirectPath);
