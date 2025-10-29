@@ -94,6 +94,7 @@ export default function CartPage() {
 
   const handleCheckout = () => {
     if (!user) {
+      toast.error('Please log in to proceed to checkout');
       router.push('/login?redirect=/checkout');
     } else {
       router.push('/checkout');

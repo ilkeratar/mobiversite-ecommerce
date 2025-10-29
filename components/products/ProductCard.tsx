@@ -38,7 +38,11 @@ export default function ProductCard({
         await removeFromWishlist(product.id); 
         toast.success('Product removed from wishlist');
       } else {
-        await addToWishlist(product); 
+        const added = await addToWishlist(product);
+        if (!added) {
+          toast.error('You need to be logged in to add products to your wishlist');
+          return;
+        }
         toast.success('Product added to wishlist');
       }
     } catch (error) {

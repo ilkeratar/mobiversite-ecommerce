@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 interface WishlistContextType {
   items: Product[];
-  addToWishlist: (product: Product) => Promise<void>;
+  addToWishlist: (product: Product) => Promise<boolean>;
   removeFromWishlist: (productId: number) => Promise<void>;
   isInWishlist: (productId: number) => boolean;
   clearWishlist: () => void;
@@ -65,10 +65,10 @@ export function WishlistProvider({ children, initialItems }: WishlistProviderPro
     syncWishlistFromUser();
   }, [user]);
 
-  const addToWishlist = async (product: Product): Promise<void> => {
+  const addToWishlist = async (product: Product): Promise<boolean> => {
     if (!user) {
       router.push('/login');
-      return;
+      return false;
     }
     // Update wishlist on server first
     const newWishlistIds = [...(user.wishlist || []), product.id];
@@ -88,8 +88,10 @@ export function WishlistProvider({ children, initialItems }: WishlistProviderPro
         }
         return [...currentItems, product];
       });
+      return true;
     } catch (error) {
       console.error('Failed to update wishlist:', error);
+      return false;
     }
   };
 
