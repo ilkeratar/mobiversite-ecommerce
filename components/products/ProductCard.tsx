@@ -1,7 +1,7 @@
 'use client';
 
 import { Product, ProductCardProps } from '@/types';
-import { HeartIcon, ShoppingCartIcon, EyeIcon, StarIcon } from '@heroicons/react/24/outline';
+import { HeartIcon, ShoppingCartIcon, StarIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -45,158 +45,223 @@ export default function ProductCard({
     onViewDetails?.(product);
   };
 
-  // Grid view (Tailwind UI style)
+  // Grid view - Modern Design
   if (viewMode === 'grid') {
     return (
       <div 
-        className="group relative"
+        className="group relative bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <Link href={`/products/${product.id}`}>
-          <div className="aspect-square w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-[7/8]">
-            <img
-              src={product.image}
-              alt={product.title}
-              className="h-full w-full object-cover object-center group-hover:opacity-75 transition-opacity"
-            />
+          {/* Image Container with fixed aspect ratio */}
+          <div className="relative w-full h-72 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+            <div className="absolute inset-0 flex items-center justify-center p-6">
+              <img
+                src={product.image}
+                alt={product.title}
+                className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out"
+              />
+            </div>
             
-            {/* Badge */}
-            {!product.details.inStock && (
-              <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-                Out of Stock
-              </div>
-            )}
+            {/* Gradient Overlay on Hover */}
+            <div className={`absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
             
-            {/* Quick Actions */}
-            <div className={`absolute top-2 right-2 flex flex-col gap-2 transition-opacity duration-300 ${
-              isHovered ? 'opacity-100' : 'opacity-0'
-            }`}>
-              <button
-                onClick={handleWishlistToggle}
-                className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
-              >
-                <span className={`inline-flex items-center justify-center transition-transform ${isWishlistAnimating ? 'scale-125' : 'scale-100'}`}>
-                  {isWishlisted ? (
-                    <HeartSolidIcon className="w-5 h-5 text-red-500" />
-                  ) : (
-                    <HeartIcon className="w-5 h-5 text-gray-600" />
-                  )}
+            {/* Badges */}
+            <div className="absolute top-3 left-3 flex flex-col gap-2">
+              {!product.details.inStock && (
+                <span className="bg-red-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                  Stokta Yok
                 </span>
-              </button>
+              )}
+              {product.rating.rate >= 4.5 && (
+                <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                  ⭐ Popüler
+                </span>
+              )}
             </div>
+            
+            {/* Wishlist Button */}
+            <button
+              onClick={handleWishlistToggle}
+              className={`absolute top-3 right-3 w-10 h-10 flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white hover:scale-110 transition-all duration-300 ${
+                isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+              }`}
+            >
+              <span className={`flex items-center justify-center transition-transform duration-300 ${isWishlistAnimating ? 'scale-125' : 'scale-100'}`}>
+                {isWishlisted ? (
+                  <HeartSolidIcon className="w-5 h-5 text-red-500" />
+                ) : (
+                  <HeartIcon className="w-5 h-5 text-gray-700" />
+                )}
+              </span>
+            </button>
           </div>
           
-          <h3 className="mt-4 text-sm text-gray-700 line-clamp-2">{product.title}</h3>
-          
-          {/* Rating */}
-          <div className="mt-1 flex items-center gap-1">
-            <div className="flex items-center">
-              {[...Array(5)].map((_, i) => (
-                <StarIcon
-                  key={i}
-                  className={`w-4 h-4 ${
-                    i < Math.floor(product.rating.rate)
-                      ? 'text-yellow-400 fill-current'
-                      : 'text-gray-300'
-                  }`}
-                />
-              ))}
-            </div>
-            <span className="text-xs text-gray-500">
-              ({product.rating.count})
-            </span>
-          </div>
-
-          <p className="mt-1 text-lg font-medium text-gray-900">${product.price.toFixed(2)}</p>
-        </Link>
-        
-        {/* Add to Cart Button */}
-        <button
-          onClick={handleAddToCart}
-          disabled={!product.details.inStock}
-          className={`mt-4 w-full rounded-md px-3 py-2 text-sm font-semibold shadow-sm transition-colors ${
-            product.details.inStock
-              ? 'bg-blue-500 text-white hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
-        >
-          {product.details.inStock ? (
-            <div className="flex items-center justify-center gap-2">
-              <ShoppingCartIcon className="w-4 h-4" />
-              Add to Cart
-            </div>
-          ) : (
-            'Out of Stock'
-          )}
-        </button>
-      </div>
-    );
-  }
-
-  // List view
-  return (
-    <div 
-      className="group relative bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 flex"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Link href={`/products/${product.id}`} className="flex w-full">
-        {/* Product Image */}
-        <div className="relative w-48 h-48 flex-shrink-0 overflow-hidden bg-gray-100">
-          <img
-            src={product.image}
-            alt={product.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-          
-          {/* Badge */}
-          {!product.details.inStock && (
-            <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-              Out of Stock
-            </div>
-          )}
-        </div>
-
-        {/* Product Info */}
-        <div className="flex-1 p-6 flex flex-col justify-between">
-          <div>
-            <h3 className="text-lg font-medium text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+          {/* Product Info */}
+          <div className="p-5">
+            {/* Category */}
+            <p className="text-xs font-medium text-blue-600 uppercase tracking-wider mb-2">
+              {product.category}
+            </p>
+            
+            {/* Title */}
+            <h3 className="text-base font-semibold text-gray-900 line-clamp-2 mb-3 min-h-[3rem] group-hover:text-blue-600 transition-colors">
               {product.title}
             </h3>
-            <p className="text-sm text-gray-500 mt-1 capitalize">{product.category}</p>
             
             {/* Rating */}
-            <div className="flex items-center gap-1 mt-2">
-              <div className="flex items-center">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-0.5">
                 {[...Array(5)].map((_, i) => (
                   <StarIcon
                     key={i}
                     className={`w-4 h-4 ${
                       i < Math.floor(product.rating.rate)
-                        ? 'text-yellow-400 fill-current'
-                        : 'text-gray-300'
+                        ? 'text-yellow-400 fill-yellow-400'
+                        : 'text-gray-200 fill-gray-200'
                     }`}
                   />
                 ))}
               </div>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm font-medium text-gray-600">
+                {product.rating.rate}
+              </span>
+              <span className="text-xs text-gray-400">
                 ({product.rating.count})
               </span>
             </div>
+
+            {/* Price */}
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-2xl font-bold text-gray-900">
+                ${product.price.toFixed(2)}
+              </span>
+              {product.details.brand && (
+                <span className="text-xs text-gray-500 font-medium">
+                  {product.details.brand}
+                </span>
+              )}
+            </div>
+          </div>
+        </Link>
+        
+        {/* Add to Cart Button */}
+        <div className="px-5 pb-5">
+          <button
+            onClick={handleAddToCart}
+            disabled={!product.details.inStock}
+            className={`w-full rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-300 transform ${
+              product.details.inStock
+                ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0'
+                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+            }`}
+          >
+            {product.details.inStock ? (
+              <div className="flex items-center justify-center gap-2">
+                <ShoppingCartIcon className="w-5 h-5" />
+                Sepete Ekle
+              </div>
+            ) : (
+              'Stokta Yok'
+            )}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // List view - Modern Design
+  return (
+    <div 
+      className="group relative bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <Link href={`/products/${product.id}`} className="flex flex-col sm:flex-row">
+        {/* Product Image */}
+        <div className="relative w-full sm:w-64 h-64 flex-shrink-0 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-center p-8">
+            <img
+              src={product.image}
+              alt={product.title}
+              className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out"
+            />
+          </div>
+          
+          {/* Gradient Overlay */}
+          <div className={`absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+          
+          {/* Badges */}
+          <div className="absolute top-3 left-3 flex flex-col gap-2">
+            {!product.details.inStock && (
+              <span className="bg-red-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                Stokta Yok
+              </span>
+            )}
+            {product.rating.rate >= 4.5 && (
+              <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                ⭐ Popüler
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Product Info */}
+        <div className="flex-1 p-6 flex flex-col justify-between">
+          <div>
+            {/* Category */}
+            <p className="text-xs font-medium text-blue-600 uppercase tracking-wider mb-2">
+              {product.category}
+            </p>
+            
+            {/* Title */}
+            <h3 className="text-xl font-bold text-gray-900 line-clamp-2 mb-3 group-hover:text-blue-600 transition-colors">
+              {product.title}
+            </h3>
+            
+            {/* Rating */}
+            <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <StarIcon
+                    key={i}
+                    className={`w-4 h-4 ${
+                      i < Math.floor(product.rating.rate)
+                        ? 'text-yellow-400 fill-yellow-400'
+                        : 'text-gray-200 fill-gray-200'
+                    }`}
+                  />
+                ))}
+              </div>
+              <span className="text-sm font-medium text-gray-600">
+                {product.rating.rate}
+              </span>
+              <span className="text-xs text-gray-400">
+                ({product.rating.count})
+              </span>
+            </div>
+
+            {/* Brand */}
+            {product.details.brand && (
+              <p className="text-sm text-gray-500 mb-2">
+                Marka: <span className="font-medium text-gray-700">{product.details.brand}</span>
+              </p>
+            )}
           </div>
 
-          <div className="flex items-center justify-between mt-4">
-            <span className="text-2xl font-semibold text-gray-900">
+          {/* Price and Actions */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-4 pt-4 border-t border-gray-100">
+            <span className="text-3xl font-bold text-gray-900">
               ${product.price.toFixed(2)}
             </span>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
               <button
                 onClick={handleWishlistToggle}
-                className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+                className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-xl hover:bg-gray-100 hover:scale-110 transition-all duration-300 shadow-sm"
               >
-                <span className={`inline-flex items-center justify-center transition-transform ${isWishlistAnimating ? 'scale-125' : 'scale-100'}`}>
+                <span className={`flex items-center justify-center transition-transform duration-300 ${isWishlistAnimating ? 'scale-125' : 'scale-100'}`}>
                   {isWishlisted ? (
                     <HeartSolidIcon className="w-5 h-5 text-red-500" />
                   ) : (
@@ -208,19 +273,19 @@ export default function ProductCard({
               <button
                 onClick={handleAddToCart}
                 disabled={!product.details.inStock}
-                className={`py-2 px-6 rounded-md text-sm font-medium transition-colors ${
+                className={`flex-1 sm:flex-initial py-3 px-8 rounded-xl text-sm font-semibold transition-all duration-300 shadow-sm ${
                   product.details.inStock
-                    ? 'bg-blue-600 text-white hover:bg-blue-500'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0'
+                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 }`}
               >
                 {product.details.inStock ? (
-                  <div className="flex items-center gap-2">
-                    <ShoppingCartIcon className="w-4 h-4" />
-                    Add to Cart
+                  <div className="flex items-center justify-center gap-2">
+                    <ShoppingCartIcon className="w-5 h-5" />
+                    Sepete Ekle
                   </div>
                 ) : (
-                  'Out of Stock'
+                  'Stokta Yok'
                 )}
               </button>
             </div>
