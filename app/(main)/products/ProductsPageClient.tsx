@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useMemo } from 'react';
 import { Product, Category, ProductFilters, ProductSortBy } from '@/types';
 import ProductList from '@/components/products/ProductList';
 import ProductSidebarFilters from '@/components/products/ProductSidebarFilters';
-import { getProducts } from '@/services/productService';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -44,8 +43,6 @@ export default function ProductsPageClient({
   const initialSearchQuery = searchParams.get('search') || '';
   
   const [products, setProducts] = useState<Product[]>(initialProducts);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | undefined>(undefined);
   const [filters, setFilters] = useState<ProductFilters>({
     search: initialSearchQuery
   });
@@ -57,75 +54,58 @@ export default function ProductsPageClient({
   const { addToWishlist } = useWishlist();
   const router = useRouter();
 
-  // Apply filters and sorting
   const filteredAndSortedProducts = useMemo(() => {
-    let filtered = [...products];
-
-
-    if (filters.category) {
-      filtered = filtered.filter(product => 
-        product.category.toLowerCase() === filters.category?.toLowerCase()
-      );
-    }
-
-    if (filters.minPrice !== undefined) {
-      filtered = filtered.filter(product => product.price >= filters.minPrice!);
-    }
-
-    if (filters.maxPrice !== undefined) {
-      filtered = filtered.filter(product => product.price <= filters.maxPrice!);
-    }
-
-    if (filters.inStock) {
-      filtered = filtered.filter(product => product.details.inStock);
-    }
-
-    if (filters.rating !== undefined) {
-      filtered = filtered.filter(product => product.rating.rate >= filters.rating!);
-    }
-
-    if (filters.brand) {
-      filtered = filtered.filter(product => product.details.brand === filters.brand);
-    }
-
-    if (filters.size) {
-      filtered = filtered.filter(product => {
+    
+    let filtered = products.filter(product => {
+      
+      if (filters.category && product.category.toLowerCase() !== filters.category.toLowerCase()) {
+        return false;
+      }
+      if (filters.minPrice !== undefined && product.price < filters.minPrice) {
+        return false;
+      }
+      if (filters.maxPrice !== undefined && product.price > filters.maxPrice) {
+        return false;
+      }
+      if (filters.inStock && !product.details.inStock) {
+        return false;
+      }
+      if (filters.rating !== undefined && product.rating.rate < filters.rating) {
+        return false;
+      }
+      if (filters.brand && product.details.brand !== filters.brand) {
+        return false;
+      }
+      if (filters.size) {
         const sizes = product.details.sizes || product.details.size;
-        return sizes ? sizes.includes(filters.size!) : false;
-      });
-    }
-
-    if (filters.color) {
-      filtered = filtered.filter(product => {
+        if (!sizes || !sizes.includes(filters.size)) return false;
+      }
+      if (filters.color) {
         const colors = product.details.colors || product.details.color;
-        return colors ? colors.includes(filters.color!) : false;
-      });
-    }
+        if (!colors || !colors.includes(filters.color)) return false;
+      }
+      if (filters.material) {
+        const materials = product.details.material;
+        if (!materials || !materials.includes(filters.material)) return false;
+      }
+      if (filters.storage) {
+        const storages = product.details.storage;
+        if (!storages || !storages.includes(filters.storage)) return false;
+      }
+      if (filters.search) {
+        const searchTerm = filters.search.toLowerCase();
+        if (
+          !product.title.toLowerCase().includes(searchTerm) &&
+          !product.description.toLowerCase().includes(searchTerm) &&
+          !product.category.toLowerCase().includes(searchTerm)
+        ) {
+          return false;
+        }
+      }
+      
+      return true; 
+    });
 
-    if (filters.material) {
-      filtered = filtered.filter(product => {
-        const material = product.details.material;
-        return material ? material.includes(filters.material!) : false;
-      });
-    }
-
-    if (filters.storage) {
-      filtered = filtered.filter(product => {
-        const storage = product.details.storage;
-        return storage ? storage.includes(filters.storage!) : false;
-      });
-    }
-
-    if (filters.search) {
-      const searchTerm = filters.search.toLowerCase();
-      filtered = filtered.filter(product => 
-        product.title.toLowerCase().includes(searchTerm) ||
-        product.description.toLowerCase().includes(searchTerm) ||
-        product.category.toLowerCase().includes(searchTerm)
-      );
-    }
-
-    // Apply sorting
     switch (sortBy) {
       case ProductSortBy.PRICE_ASC:
         filtered.sort((a, b) => a.price - b.price);
@@ -153,41 +133,6 @@ export default function ProductsPageClient({
     return filtered;
   }, [products, filters, sortBy]);
 
-  const isInitialMount = useRef(true);
-
-  // Load products when filters change
-  useEffect(() => {
-    const { search, category, minPrice, maxPrice, inStock } = filters;
-
-    const loadProducts = async () => {
-      setLoading(true);
-      setError(undefined);
-      
-      try {
-        const searchParams = new URLSearchParams();
-        
-        if (search) searchParams.set('q', search);
-        if (category) searchParams.set('category', category);
-        if (minPrice !== undefined) searchParams.set('minPrice', minPrice.toString());
-        if (maxPrice !== undefined) searchParams.set('maxPrice', maxPrice.toString());
-        if (inStock) searchParams.set('inStock', 'true');
-
-        const newProducts = await getProducts(Object.fromEntries(searchParams));
-        setProducts(newProducts);
-      } catch (err) {
-        setError('Failed to load products. Please try again.');
-        console.error('Error loading products:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    } else {
-      loadProducts();
-    }
-  }, [filters]);
 
   const handleAddToCart = (product: Product) => {
     addToCart(product);
@@ -319,8 +264,6 @@ export default function ProductsPageClient({
             <div className="lg:col-span-3">
               <ProductList
                 products={filteredAndSortedProducts}
-                loading={loading}
-                error={error}
                 viewMode={viewMode}
                 onAddToCart={handleAddToCart}
                 onAddToWishlist={handleAddToWishlist}

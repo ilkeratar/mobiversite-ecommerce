@@ -243,7 +243,7 @@ export default function CartPage() {
                         {/* Price and Quantity Controls */}
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mt-4">
                           <div className="flex items-center gap-2 sm:gap-3">
-                            <span className="text-xs sm:text-sm text-gray-600">Qty:</span>
+                            <span className="text-xs sm:text-sm text-gray-600">Quantity:</span>
                             <div className="flex items-center border border-gray-300 rounded-lg">
                               <button
                                 onClick={() => handleQuantityChange(item.id, item.quantity, -1, item.selectedOptions)}

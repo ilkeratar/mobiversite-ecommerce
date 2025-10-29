@@ -2,13 +2,10 @@
 
 import { Product } from '@/types';
 import ProductCard from './ProductCard';
-import ProductCardSkeleton from './ProductCardSkeleton';
 import { Squares2X2Icon } from '@heroicons/react/24/outline';
 
 interface ProductListProps {
   products: Product[];
-  loading?: boolean;
-  error?: string;
   viewMode?: 'grid' | 'list';
   onAddToCart?: (product: Product) => void;
   onAddToWishlist?: (product: Product) => void;
@@ -17,41 +14,11 @@ interface ProductListProps {
 
 export default function ProductList({ 
   products, 
-  loading = false, 
-  error,
   viewMode = 'grid',
   onAddToCart,
   onAddToWishlist,
   onViewDetails
 }: ProductListProps) {
-
-  if (loading) {
-    return (
-      <div className={
-        viewMode === 'grid' 
-          ? 'grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8'
-          : 'space-y-4'
-      }>
-        {[...Array(6)].map((_, index) => (
-          <ProductCardSkeleton key={index} viewMode={viewMode} />
-        ))}
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-red-600 mb-4">{error}</p>
-        <button 
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-        >
-          Try Again
-        </button>
-      </div>
-    );
-  }
 
   if (!products || products.length === 0) {
     return (
@@ -67,8 +34,6 @@ export default function ProductList({
 
   return (
     <>
-
-      {/* Products Grid/List */}
       <div className={
         viewMode === 'grid' 
           ? 'grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8'
