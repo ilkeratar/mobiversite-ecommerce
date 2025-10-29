@@ -8,6 +8,8 @@ import { Trash2, ShoppingBag, ArrowLeft, Plus, Minus, Tag, X } from 'lucide-reac
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import ConfirmDialog from '@/components/ui/ConfirmDialog';
+import { toast } from 'react-hot-toast';
 
 
 const SHIPPING_RATE = 15.00;
@@ -32,6 +34,7 @@ export default function CartPage() {
 
   const [promoCode, setPromoCode] = useState('');
   const [promoError, setPromoError] = useState('');
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const subtotal = stats?.totalPrice ?? 0;
   const shipping = items && items.length > 0 ? SHIPPING_RATE : 0;
@@ -39,11 +42,15 @@ export default function CartPage() {
   const total = Number((subtotal + shipping + tax - promoDiscount).toFixed(2));
 
   const handleClearCart = () => {
-    if (window.confirm('Are you sure you want to clear your cart?')) {
-      setIsClearing(true);
-      clearCart();
-      setTimeout(() => setIsClearing(false), 300);
-    }
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmClear = () => {
+    setIsClearing(true);
+    clearCart();
+    setIsConfirmOpen(false);
+    toast.success('Your cart has been cleared');
+    setTimeout(() => setIsClearing(false), 300);
   };
 
   const handleApplyPromoCode = () => {
@@ -507,6 +514,17 @@ export default function CartPage() {
           </div>
         </div>
       </div>
+      <ConfirmDialog
+        open={isConfirmOpen}
+        title="Clear cart"
+        description={
+          'This will remove all items from your cart. This action cannot be undone.'
+        }
+        confirmText="Clear cart"
+        cancelText="Cancel"
+        onConfirm={handleConfirmClear}
+        onCancel={() => setIsConfirmOpen(false)}
+      />
     </div>
   );
 }
