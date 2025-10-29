@@ -1,5 +1,3 @@
-// Category related types
-
 export interface Category {
   id: number;
   name: string;
@@ -10,7 +8,6 @@ export interface CategoryWithCount extends Category {
   productCount: number;
 }
 
-// Category filter props
 export interface CategoryFilterProps {
   categories: Category[];
   selectedCategory?: string;

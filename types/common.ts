@@ -1,5 +1,3 @@
-// Common types used across the application
-
 export interface Rating {
   rate: number;
   count: number;

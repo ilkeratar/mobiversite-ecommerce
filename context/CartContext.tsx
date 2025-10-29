@@ -105,7 +105,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
   ) => {
     setItems((prevItems) => 
       prevItems.filter(
-        // Use Utils to remove a specific variant of the product
         (item) => !CartUtils.matchesCartItem(item, productId, selectedOptions)
       )
     );
@@ -117,7 +116,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     selectedOptions?: CartItem['selectedOptions']
   ) => {
     if (!CartUtils.isValidQuantity(quantity)) {
-      // If quantity is invalid (e.g. 0), remove the product
       removeFromCart(productId, selectedOptions);
       return;
     }
@@ -125,7 +123,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prevItems) => 
       prevItems.map((item) => {
         if (CartUtils.matchesCartItem(item, productId, selectedOptions)) {
-          // Update the quantity of the matching product
           return { ...item, quantity };
         }
         return item;

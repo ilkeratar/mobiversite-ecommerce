@@ -96,7 +96,7 @@ export default function ProductCard({
             <div className="absolute top-3 left-3 flex flex-col gap-2">
               {!product.details.inStock && (
                 <span className="bg-red-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
-                  Stokta Yok
+                  Out of Stock
                 </span>
               )}
               {product.rating.rate >= 4.5 && (
@@ -333,7 +333,7 @@ export default function ProductCard({
                 }`}
               >
                 {!product.details.inStock ? (
-                  'Stokta Yok'
+                  'Out of Stock'
                 ) : isAddingToCart ? (
                   <div className="flex items-center justify-center gap-2">
                     <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
