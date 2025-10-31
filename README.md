@@ -11,7 +11,7 @@ This project was prepared as part of an e‑commerce application development tas
 
 When testing the live demo, you can create a new account or log in using the test credentials below.
 
-* **Test User Email:** `ilker@atar.com`
+* **Test User Email:** `ilker@123.co`
 * **Test User Password:** `123123`
 
 ---
